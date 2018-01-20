@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2018</copyright>
-    <lastBuildDate>Fri, 19 Jan 2018 00:08:24 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jan 2018 00:40:36 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>2018.1.21——Golang小知识</title>
+      <link>https://hapi666.github.io/post/2018.1.21/</link>
+      <pubDate>Sun, 21 Jan 2018 00:40:36 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/2018.1.21/</guid>
+      <description>看项目代码看见的关于string与slice之前的转化 首先上我看到的代码
+func (this *YamlConfig) MustValue(key string, defaultVal ...string) string { val, err := this.Value(key) if len(defaultVal) &amp;gt; 0 &amp;amp;&amp;amp; err != nil { return defaultVal[0] } return val }  对于defaultVal是一个string类型的变量，可是在return后面返回的是defaultVal[0]，，，这是干什么呢？我很疑惑。。
+后来我尝试输出一个string类型变量的酱紫形式:
+package main import &amp;quot;fmt&amp;quot; func main(){ str:=&amp;quot;23&amp;quot; fmt.Println(str[0]) }  得到的结果是:50
+So,可以知道，它输出的是2的ascii码值
+哦，那上面我有疑惑的代码返回 的是一个ascii值
+欸，不对啊，我仔细一看，返回值类型是string啊
+ASCII是int型的变量啊= =
+那么我对于上述有疑问的代码我就更加不解了
+后来我又做了几次尝试
+如下:
+package main import ( &amp;quot;fmt&amp;quot; ) func func_name(str ...string) string { return str[0] } func main() { var str string str = &amp;quot;23&amp;quot; /*str := []string{&amp;quot;2&amp;quot;, &amp;quot;3&amp;quot;}*/ fmt.</description>
+    </item>
     
     <item>
       <title>2018.1.19——interface</title>

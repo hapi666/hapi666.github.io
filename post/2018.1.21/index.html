@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" prefix="og: http://ogp.me/ns#" xmlns:og="http://ogp.me/ns#"><!--<![endif]-->
+
+    <head>
+                <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="author" content="哈皮">
+  
+	
+        <meta property="og:site_name" content="一只傻哈皮">
+        <meta property="og:title" content="一只傻哈皮">
+        <meta property="og:url" content="https://hapi666.github.io/post/2018.1.21/">
+        <meta property="og:description" content="有梦想的年轻人！">
+    
+        <meta property="og:type" content="article" />
+        <meta property="og:article:author" content="哈皮" />
+        <meta property="og:article:published_time" content="2018-01-21T00:40:36&#43;08:00" />
+    
+        <meta name="generator" content="Hugo 0.30" />
+        <title>2018.1.21——Golang小知识 &middot; 一只傻哈皮</title>
+        <link rel="canonical" href="https://hapi666.github.io/" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="">
+        <link rel="stylesheet" type="text/css" href="https://hapi666.github.io/css/main.css"/>
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    </head>
+
+<body>
+<!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
+
+    <header id="site-header">
+        <div class="container">
+            <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
+            <p class="blog-description">有梦想的年轻人！</p>
+        </div>
+    </header>
+<main class="content" role="main">
+	<div class="container">
+		<article class="post">
+	<header class="post-header">
+        <h3 class="p-post-title">2018.1.21——Golang小知识</h3>
+    </header>
+
+    <section class="post-content">
+        
+
+<h4 id="看项目代码看见的关于string与slice之前的转化">看项目代码看见的关于string与slice之前的转化</h4>
+
+<p>首先上我看到的代码</p>
+
+<pre><code class="language-go">func (this *YamlConfig) MustValue(key string, defaultVal ...string) string {
+	val, err := this.Value(key)
+	if len(defaultVal) &gt; 0 &amp;&amp; err != nil {
+		return defaultVal[0]
+	}
+	return val
+}
+</code></pre>
+
+<p>对于defaultVal是一个string类型的变量，可是在return后面返回的是defaultVal[0]，，，这是干什么呢？我很疑惑。。</p>
+
+<p>后来我尝试输出一个string类型变量的酱紫形式:</p>
+
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func main(){
+  str:=&quot;23&quot;
+  fmt.Println(str[0])
+}
+</code></pre>
+
+<p>得到的结果是:50</p>
+
+<p>So,可以知道，它输出的是2的ascii码值</p>
+
+<p>哦，那上面我有疑惑的代码返回 的是一个ascii值</p>
+
+<p>欸，不对啊，我仔细一看，返回值类型是string啊</p>
+
+<p>ASCII是int型的变量啊= =</p>
+
+<p>那么我对于上述有疑问的代码我就更加不解了</p>
+
+<p>后来我又做了几次尝试</p>
+
+<p>如下:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+)
+
+func func_name(str ...string) string {
+	return str[0]
+}
+
+func main() {
+	var str string
+	str = &quot;23&quot;
+	/*str := []string{&quot;2&quot;, &quot;3&quot;}*/
+	fmt.Println(str[0]) //2的ascii码
+	fmt.Println(str)
+	fmt.Println(func_name(str))
+}
+</code></pre>
+
+<p>这样的输出是:50</p>
+
+<p>​              23</p>
+
+<p>​                       23</p>
+
+<p>我又发现了defaultVal &hellip;string前面的三个‘.’</p>
+
+<p>那又是什么呢？</p>
+
+<p>我把前面的测试代码中的str换成注释里面的slice类型之后会报错，大致意思是应该给函数func_name()传string类型的参数而不应是slice类型的，故我可以初步认为那三个&rsquo;.&lsquo;是把string变成slice类型了，那么str[0]应该是2呀，怎么是23呢?后来我又尝试输出了一下str[1]，编译器报错提示超范围了，啊，，原来是酱紫，我豁然开朗，三个‘.’不仅把string类型变成slice类型而且把整个string全部存在了第一个索引上！</p>
+
+<p>接下来我对于我有疑惑的代码就可以合理的解释啦</p>
+
+<p>如何解释自己思考咯，，，</p>
+
+<p>PS：我还有一个小疑问：为何将传入string类型的defaultVal变成slice类型呢？直接返回defaultVal不就好了？还搞的如此麻烦，饶了一大圈，，= =！</p>
+
+<p>呜呜呜，，窝困死了，，明天我再想想蛤&hellip;</p>
+
+<p>菜鸟睡去了</p>
+
+<p>现已凌晨1：03</p>
+
+<p>bey!</p>
+
+    </section>
+
+    <hr>
+
+    <footer class="post-footer">
+        <section class="f-1">
+            
+            <section class="author">
+                <p>Words by 哈皮</p>
+            </section>
+            
+            
+            <p class="f-post-time"><time datetime="2018-01-21T00:40:36&#43;08:00">January 21, 2018</time></p>
+        </section>
+                        
+        <section class="f-2">
+            <section class="share">
+                <span>Share:
+                <a class="icon-twitter" href="http://twitter.com/share?text=2018.1.21%e2%80%94%e2%80%94Golang%e5%b0%8f%e7%9f%a5%e8%af%86&url=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.1.21%2f"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.1.21%2f"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.1.21%2f"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                </span>
+            </section>
+
+            
+        </section>
+                        
+    </footer>
+</article>
+	</div>
+</main>
+    <footer id="site-footer">
+        <div class="container">
+          
+          
+          
+          
+          <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+          <section>&copy; <a href="https://hapi666.github.io/">哈皮</a> 2017 | All rights reserved</section>
+          <section>Theme by <a href="http://www.jrdnbwmn.com">Jordan Bowman</a>. Generated with <a href="http://gohugo.io/">Hugo</a>.</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://hapi666.github.io/js/fittext.js"></script>
+    <script type="text/javascript">
+      $(".heading").fitText();
+    </script>
+
+
+
+</body>
+</html>

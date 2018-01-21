@@ -122,11 +122,13 @@ func main() {
 
 <p>​                       23</p>
 
-<p>我又发现了defaultVal &hellip;string前面的三个‘.’</p>
+<p>那又是为什么呢？</p>
 
-<p>那又是什么呢？</p>
+<p>最后一个不应该是50吗？</p>
 
-<p>我把前面的测试代码中的str换成注释里面的slice类型之后会报错，大致意思是应该给函数func_name()传string类型的参数而不应是slice类型的，故我可以初步认为那三个&rsquo;.&lsquo;是把string变成slice类型了，那么str[0]应该是2呀，怎么是23呢?后来我又尝试输出了一下str[1]，编译器报错提示超范围了，啊，，原来是酱紫，我豁然开朗，三个‘.’不仅把string类型变成slice类型而且把整个string全部存在了第一个索引上！</p>
+<p>别人告诉我defaultVal是一个slice。。</p>
+
+<p>我把前面的测试代码中的str换成注释里面的slice类型之后会报错，大致意思是应该给函数func_name()传string类型的参数而不应是slice类型的，故我可以初步认为那三个&rsquo;.&lsquo;是把string变成slice类型了，那么str[0]应该是2呀，怎么是23呢?后来我又尝试输出了一下str[1]，编译器报错提示超范围了，啊，，原来是酱紫，我豁然开朗，三个‘.’不仅把string类型变成slice类型而且把整个string全部存在了第一个索引上！（后来知道这仅仅是传一个可变参数defaultVal的时候。。）</p>
 
 <p>接下来我对于我有疑惑的代码就可以合理的解释啦</p>
 
@@ -136,11 +138,30 @@ func main() {
 
 <p>呜呜呜，，窝困死了，，明天我再想想蛤&hellip;</p>
 
-<p>菜鸟睡去了</p>
-
 <p>现已凌晨1：03</p>
 
 <p>bey!</p>
+
+<p>更新。。。</p>
+
+<p>解决上面PS部分，现在来明确一下&rdquo;defaultVal&hellip;string&rdquo;中的三个‘.’是何含义：意思是可变参数即 可以有多个string类型的变量传入，也即是接受一个string类型的slice，</p>
+
+<pre><code class="language-go">func (this *YamlConfig) MustValue(key string, defaultVal ...string) string {
+	val, err := this.Value(key)
+	if len(defaultVal) &gt; 0 &amp;&amp; err != nil {
+		return defaultVal[0]
+	}
+	return val
+}
+</code></pre>
+
+<p>return defaultVal[0]是在err!=nil的情况下，也就是说如果得到的键值不存在，那么，默认返回defaultVal[0]也就是第一个参数，如果存在，就用已知的(写在配置文件里面的)</p>
+
+<h5 id="总结一下把-我没看函数可变参数那块">总结一下把，我没看函数可变参数那块。。</h5>
+
+<p>end.</p>
+
+<p>2018.1.22</p>
 
     </section>
 

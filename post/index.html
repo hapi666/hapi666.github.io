@@ -46,6 +46,25 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.25d2/">客户端与服务器通信过程,http.Handle与http.HandleFunc的区别</a></h3>
+        <p class="post-time"><time datetime="2018-01-25T16:29:46&#43;08:00">January 25, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p> · 客户端与服务器之间的通信 一切都是由客户端的一个请求(request)开始的 首先，客户端向服务端发送一个request，当request到达服务器时，多路复用器(multiplexer)会对request进行检查，并将请求重定向到正确的处理器进行处理。 处理器在接收到多路复用器转发的request之后，会从请求中取出相应的信息，并根据这些信息对请求进行处理。在request处理完毕之后，处理器会将所得数据传递给模板引擎，而模板引擎则会根据这些数据生成将要返回给客户端的HTML。 · http.Handle与http.HandleFunc的区别 首先看它们俩的构成： func Handle(pattern string,handler Handler) { } func HandleFunc(pattern string,handler func(ResponseWriter,*Request)) { } type Handler interface { ServerHTTP(w ResponseWriter,r *Request) }  #### 所以不难看出，
+Handle()函数的第二个参数handler必须实现了func (handler)ServerHTTP(ResponseWriter,*Request)方法 总结一下，对于那种路由器函数就采用HandleFunc()函数，对于实现了Handler接口的路由就采用Handle()函数. </p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.25/">Package</a></h3>
         <p class="post-time"><time datetime="2018-01-25T14:49:00&#43;08:00">January 25, 2018</time></p>
     </header>
@@ -139,25 +158,17 @@ package main import ( &quot;fmt&quot; ) type easy struct { value int } type easi
     </footer>
 </article>
 	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.18/">2018寒假目标</a></h3>
-        <p class="post-time"><time datetime="2018-01-18T23:34:39&#43;08:00">January 18, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p> · 写 写 写 (这对我来说意义不一样，我很懒) · 博客系统一个 · 面向对象的思想！！！！class！！！ · 愿我2018.3.1回头再看你时，已全部搞定 持续更新&hellip;&hellip;&hellip; </p>
-    </section>
+	
+<nav role="pagination" class="pagination">
+  
+	<span class="post-list-pagination-item post-list-pagination-item-current">Page 1 of 2</span>
 
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-	
+  <a href="https://hapi666.github.io/post/page/2/" class="older-posts">
+    &nbsp;Older&nbsp;<i class="fa fa-angle-double-right"></i>
+  </a>
+
+</nav>
+
 	</div>
 </main>
     <footer id="site-footer">

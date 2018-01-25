@@ -57,9 +57,13 @@
 
 <h4 id="一切都是由客户端的一个请求-request-开始的">一切都是由客户端的一个请求(request)开始的</h4>
 
-<h6 id="首先-客户端向服务端发送一个request-当request到达服务器时-多路复用器-multiplexer-会对request进行检查-并将请求重定向到正确的处理器进行处理">首先，客户端向服务端发送一个request，当request到达服务器时，多路复用器(multiplexer)会对request进行检查，并将请求重定向到正确的处理器进行处理。</h6>
+<h6 id="首先-客户端向服务端发送一个request-当request到达服务器时-多路复用器-multiplexer-会对request进行检查-并将请求重定向">首先，客户端向服务端发送一个request，当request到达服务器时，多路复用器(multiplexer)会对request进行检查，并将请求重定向</h6>
 
-<h6 id="处理器在接收到多路复用器转发的request之后-会从请求中取出相应的信息-并根据这些信息对请求进行处理-在request处理完毕之后-处理器会将所得数据传递给模板引擎-而模板引擎则会根据这些数据生成将要返回给客户端的html">处理器在接收到多路复用器转发的request之后，会从请求中取出相应的信息，并根据这些信息对请求进行处理。在request处理完毕之后，处理器会将所得数据传递给模板引擎，而模板引擎则会根据这些数据生成将要返回给客户端的HTML。</h6>
+<h6 id="到正确的处理器进行处理">到正确的处理器进行处理。</h6>
+
+<h6 id="处理器在接收到多路复用器转发的request之后-会从请求中取出相应的信息-并根据这些信息对请求进行处理-在request处理完">处理器在接收到多路复用器转发的request之后，会从请求中取出相应的信息，并根据这些信息对请求进行处理。在request处理完</h6>
+
+<h6 id="毕之后-处理器会将所得数据传递给模板引擎-而模板引擎则会根据这些数据生成将要返回给客户端的html">毕之后，处理器会将所得数据传递给模板引擎，而模板引擎则会根据这些数据生成将要返回给客户端的HTML。</h6>
 
 <h3 id="http-handle与http-handlefunc的区别">· http.Handle与http.HandleFunc的区别</h3>
 
@@ -76,7 +80,7 @@ type Handler interface {
 
 <p>####  所以不难看出，</p>
 
-<h4 id="handle-函数的第二个参数handler必须实现了func-handler-serverhttp-responsewriter-request-方法">Handle()函数的第二个参数handler必须实现了func (handler)ServerHTTP(ResponseWriter,*Request)方法</h4>
+<h6 id="handle-函数的第二个参数handler必须实现了func-handler-serverhttp-responsewriter-request-方法">Handle()函数的第二个参数handler必须实现了func (handler)ServerHTTP(ResponseWriter,*Request)方法</h6>
 
 <h5 id="总结一下-对于那种路由器函数就采用handlefunc-函数-对于实现了handler接口的路由就采用handle-函数">总结一下，对于那种路由器函数就采用HandleFunc()函数，对于实现了Handler接口的路由就采用Handle()函数.</h5>
 

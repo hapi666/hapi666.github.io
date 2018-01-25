@@ -18,8 +18,7 @@
       <pubDate>Thu, 25 Jan 2018 14:49:00 +0800</pubDate>
       
       <guid>https://hapi666.github.io/post/2018.1.25/</guid>
-      <description>![https://github.com/hapi666/hapi666.github.io/blob/master/post/package.png]()
-由上图，显而易见Go中的package是怎么加载的。
+      <description>由上图，显而易见Go中的package是怎么加载的。
 每次加载一个package，都会执行该package的init()函数，这是无需调用init()的。</description>
     </item>
     

@@ -18,8 +18,7 @@
       <pubDate>Thu, 25 Jan 2018 16:29:46 +0800</pubDate>
       
       <guid>https://hapi666.github.io/post/2018.1.25d2/</guid>
-      <description> · 客户端与服务器之间的通信 一切都是由客户端的一个请求(request)开始的 首先，客户端向服务端发送一个request，当request到达服务器时，多路复用器(multiplexer)会对request进行检查，并将请求重定向 到正确的处理器进行处理。 处理器在接收到多路复用器转发的request之后，会从请求中取出相应的信息，并根据这些信息对请求进行处理。在request处理完 毕之后，处理器会将所得数据传递给模板引擎，而模板引擎则会根据这些数据生成将要返回给客户端的HTML。 · http.Handle与http.HandleFunc的区别 首先看它们俩的构成： func Handle(pattern string,handler Handler) { } func HandleFunc(pattern string,handler func(ResponseWriter,*Request)) { } type Handler interface { ServerHTTP(w ResponseWriter,r *Request) }  #### 所以不难看出，
-Handle()函数的第二个参数handler必须实现了func (handler)ServerHTTP(ResponseWriter,*Request)方法 总结一下，对于那种路由器函数就采用HandleFunc()函数，对于实现了Handler接口的路由就采用Handle()函数. </description>
+      <description> · 客户端与服务器之间的通信 一切都是由客户端的一个请求(request)开始的 首先，客户端向服务端发送一个request，当request到达服务器时，多路复用器(multiplexer)会对request进行检查，并将请求重定向 到正确的处理器进行处理。 处理器在接收到多路复用器转发的request之后，会从请求中取出相应的信息，并根据这些信息对请求进行处理。在request处理完 毕之后，处理器会将所得数据传递给模板引擎，而模板引擎则会根据这些数据生成将要返回给客户端的HTML。 · http.Handle与http.HandleFunc的区别 首先看它们俩的构成： func Handle(pattern string,handler Handler) { } func HandleFunc(pattern string,handler func(ResponseWriter,*Request)) { } type Handler interface { ServerHTTP(w ResponseWriter,r *Request) }  所以不难看出， Handle()函数的第二个参数handler必须实现了func (handler)ServerHTTP(ResponseWriter,*Request)方法 而 ServerHTTP()函数就是HandleFunc()函数的第二个参数 总结一下，对于那种路由器函数就采用HandleFunc()函数，对于实现了Handler接口的路由就采用Handle()函数. </description>
     </item>
     
     <item>

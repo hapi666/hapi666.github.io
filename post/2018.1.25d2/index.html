@@ -78,9 +78,11 @@ type Handler interface {
 }
 </code></pre>
 
-<p>####  所以不难看出，</p>
+<h4 id="所以不难看出">所以不难看出，</h4>
 
 <h6 id="handle-函数的第二个参数handler必须实现了func-handler-serverhttp-responsewriter-request-方法">Handle()函数的第二个参数handler必须实现了func (handler)ServerHTTP(ResponseWriter,*Request)方法</h6>
+
+<h6 id="而-serverhttp-函数就是handlefunc-函数的第二个参数">而 ServerHTTP()函数就是HandleFunc()函数的第二个参数</h6>
 
 <h5 id="总结一下-对于那种路由器函数就采用handlefunc-函数-对于实现了handler接口的路由就采用handle-函数">总结一下，对于那种路由器函数就采用HandleFunc()函数，对于实现了Handler接口的路由就采用Handle()函数.</h5>
 

@@ -46,6 +46,35 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.19/">2018.1.19——interface</a></h3>
+        <p class="post-time"><time datetime="2018-01-19T00:08:24&#43;08:00">January 19, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>接口(interface) 接口从本质上说就是几个方法的集合，接口描述了类型的行为
+接口的命名一般是：&hellip;r/&hellip;able等(由r/able后缀组成)
+在Go语言中接口可以有值，一个接口类型的变量就是一个接口值(var ai Namer)，接口值是一个多字数据结构，其初始化值为nil，虽然和指针不是完全相同的东西，但实际上是一个指针。故指向接口值的指针是非法的，指向接口的指针不仅一点用处没有，还会导致代码错误。所以在函数参数列表里面用接口指针是错误的！
+对于任何一个类型，只要实现了接口中的所有方法即为实现了该接口。当然它还可以有其他方法。
+类型不需要显式声明它实现了某个接口，接口隐式地被实现。
+多个类型可以实现同一接口。
+一个类型可以实现多个接口。
+即使接口在类型之后才定义，二者处于不同的包中，被单独编译：只要类型实现了接口中的方法，它就实现了此接口。
+package main import ( &quot;fmt&quot; ) type easy struct { value int } type easier interface { name(p1 int, p2 int) int } func (e *easy) name(p1 int, p2 int) int { fmt.Println(p1 * p2) return p1 * p2 } func main() { test := new(easy) tester := easier(test) tester.name(6, 6) }  输出：36
+接口类型的数组，展示多态。
+一个接口可以嵌套到另一个接口中。
+假设varM是一个接口类型的变量，检测它的动态类型(运行时在变量中存储的值的实际类型)的方式是：v:=varM.(T) //检测它是否是T类型</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.18/">2018寒假目标</a></h3>
         <p class="post-time"><time datetime="2018-01-18T23:34:39&#43;08:00">January 18, 2018</time></p>
     </header>

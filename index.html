@@ -46,6 +46,43 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.2.24/">Go里面的传参和传引用</a></h3>
+        <p class="post-time"><time datetime="2018-02-24T19:13:30&#43;08:00">February 24, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>关于Go里面传参和传引用 Go函数或方法中参数列表里面的都是值传递！！（包括Slice,chan,map）
+当闭包使用到外部变量的时候使用的是该变量的引用类型，闭包函数的参数列表也是值传递！</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.29/">反射reflect</a></h3>
+        <p class="post-time"><time datetime="2018-01-28T23:53:05&#43;08:00">January 28, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p></p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.27/">cookie与session</a></h3>
         <p class="post-time"><time datetime="2018-01-27T00:29:43&#43;08:00">January 27, 2018</time></p>
     </header>
@@ -66,7 +103,8 @@ Cookie(token) ·cookie是什么？
 cookie存储在客户端。
 浏览器第一次连接特定服务器时没有cookie
 cookie里面保存session_id
-·cookie的应用过程 由服务器将cookie添加到response里一并返回给客户端，然后客户端会自动把response里的cookie接收下来，并且保存到本地，下次发出请求的时候，就会把cookie附加在request里，服务器在根据request里的cookie遍历搜索是否有与之符合的信息。 cookie是存在客户端的，实际上就是在客户端与服务端交换的一小段数据（一个name/string对）</p>
+·cookie的应用过程 由服务器将cookie添加到response里一并返回给客户端，然后客户端会自动把response里的cookie接收下来，并且保存到本地，下次发出请求的时候，就会把cookie附加在request里，服务器在根据request里的cookie遍历搜索是否有与之符合的信息。 cookie是存在客户端的，实际上就是在客户端与服务端交换的一小段数据（一个name/string对）
+cookie存储在客户端，但对cookie的操作在后端，比如比较cookie里面的session_id</p>
     </section>
 
     <footer class="post-footer">
@@ -104,53 +142,6 @@ cookie里面保存session_id
     <section class="post-excerpt">
         <p>由上图，显而易见Go中的package是怎么加载的。
 每次加载一个package，都会执行该package的init()函数，这是无需调用init()的。</p>
-    </section>
-
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.23/">很小很杂的点</a></h3>
-        <p class="post-time"><time datetime="2018-01-23T22:44:01&#43;08:00">January 23, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p>stat()函数 //是通过文件名filename来获取文件的属性值</p>
-    </section>
-
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.21/">2018.1.21——Golang小知识</a></h3>
-        <p class="post-time"><time datetime="2018-01-21T00:40:36&#43;08:00">January 21, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p>看项目代码看见的关于string与slice之前的转化 首先上我看到的代码
-func (this *YamlConfig) MustValue(key string, defaultVal ...string) string { val, err := this.Value(key) if len(defaultVal) &gt; 0 &amp;&amp; err != nil { return defaultVal[0] } return val }  对于defaultVal是一个string类型的变量，可是在return后面返回的是defaultVal[0]，，，这是干什么呢？我很疑惑。。
-后来我尝试输出一个string类型变量的酱紫形式:
-package main import &quot;fmt&quot; func main(){ str:=&quot;23&quot; fmt.Println(str[0]) }  得到的结果是:50
-So,可以知道，它输出的是2的ascii码值
-哦，那上面我有疑惑的代码返回 的是一个ascii值
-欸，不对啊，我仔细一看，返回值类型是string啊
-ASCII是int型的变量啊= =
-那么我对于上述有疑问的代码我就更加不解了
-后来我又做了几次尝试
-如下:
-package main import ( &quot;fmt&quot; ) func func_name(str ...string) string { return str[0] } func main() { var str string str = &quot;23&quot; /*str := []string{&quot;2&quot;, &quot;3&quot;}*/ fmt.</p>
     </section>
 
     <footer class="post-footer">

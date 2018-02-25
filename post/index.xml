@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2018</copyright>
-    <lastBuildDate>Sat, 27 Jan 2018 00:29:43 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 24 Feb 2018 19:13:30 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Go里面的传参和传引用</title>
+      <link>https://hapi666.github.io/post/2018.2.24/</link>
+      <pubDate>Sat, 24 Feb 2018 19:13:30 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/2018.2.24/</guid>
+      <description>关于Go里面传参和传引用 Go函数或方法中参数列表里面的都是值传递！！（包括Slice,chan,map）
+当闭包使用到外部变量的时候使用的是该变量的引用类型，闭包函数的参数列表也是值传递！</description>
+    </item>
+    
+    <item>
+      <title>反射reflect</title>
+      <link>https://hapi666.github.io/post/2018.1.29/</link>
+      <pubDate>Sun, 28 Jan 2018 23:53:05 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/2018.1.29/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>cookie与session</title>
@@ -33,7 +52,8 @@ Cookie(token) ·cookie是什么？
 cookie存储在客户端。
 浏览器第一次连接特定服务器时没有cookie
 cookie里面保存session_id
-·cookie的应用过程 由服务器将cookie添加到response里一并返回给客户端，然后客户端会自动把response里的cookie接收下来，并且保存到本地，下次发出请求的时候，就会把cookie附加在request里，服务器在根据request里的cookie遍历搜索是否有与之符合的信息。 cookie是存在客户端的，实际上就是在客户端与服务端交换的一小段数据（一个name/string对）</description>
+·cookie的应用过程 由服务器将cookie添加到response里一并返回给客户端，然后客户端会自动把response里的cookie接收下来，并且保存到本地，下次发出请求的时候，就会把cookie附加在request里，服务器在根据request里的cookie遍历搜索是否有与之符合的信息。 cookie是存在客户端的，实际上就是在客户端与服务端交换的一小段数据（一个name/string对）
+cookie存储在客户端，但对cookie的操作在后端，比如比较cookie里面的session_id</description>
     </item>
     
     <item>

@@ -46,6 +46,53 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.23/">很小很杂的点</a></h3>
+        <p class="post-time"><time datetime="2018-01-23T22:44:01&#43;08:00">January 23, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>stat()函数 //是通过文件名filename来获取文件的属性值</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.21/">2018.1.21——Golang小知识</a></h3>
+        <p class="post-time"><time datetime="2018-01-21T00:40:36&#43;08:00">January 21, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>看项目代码看见的关于string与slice之前的转化 首先上我看到的代码
+func (this *YamlConfig) MustValue(key string, defaultVal ...string) string { val, err := this.Value(key) if len(defaultVal) &gt; 0 &amp;&amp; err != nil { return defaultVal[0] } return val }  对于defaultVal是一个string类型的变量，可是在return后面返回的是defaultVal[0]，，，这是干什么呢？我很疑惑。。
+后来我尝试输出一个string类型变量的酱紫形式:
+package main import &quot;fmt&quot; func main(){ str:=&quot;23&quot; fmt.Println(str[0]) }  得到的结果是:50
+So,可以知道，它输出的是2的ascii码值
+哦，那上面我有疑惑的代码返回 的是一个ascii值
+欸，不对啊，我仔细一看，返回值类型是string啊
+ASCII是int型的变量啊= =
+那么我对于上述有疑问的代码我就更加不解了
+后来我又做了几次尝试
+如下:
+package main import ( &quot;fmt&quot; ) func func_name(str ...string) string { return str[0] } func main() { var str string str = &quot;23&quot; /*str := []string{&quot;2&quot;, &quot;3&quot;}*/ fmt.</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.19/">2018.1.19——interface</a></h3>
         <p class="post-time"><time datetime="2018-01-19T00:08:24&#43;08:00">January 19, 2018</time></p>
     </header>

@@ -18,7 +18,8 @@
       <pubDate>Tue, 27 Feb 2018 00:39:44 +0800</pubDate>
       
       <guid>https://hapi666.github.io/post/hugo%E5%A4%87%E5%BF%98/</guid>
-      <description></description>
+      <description>总是忘记更新博文步骤，写一个备忘吧233 搭建好hugo博客后，
+$ cd blog/hapi666.github.io $ hugo -t detox $ cd public $ git add . $ git commit -m &#39;...&#39; $ git push origin master  重复以上六步即可更新博文。</description>
     </item>
     
     <item>

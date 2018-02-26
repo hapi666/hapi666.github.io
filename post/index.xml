@@ -7,10 +7,35 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2018</copyright>
-    <lastBuildDate>Sat, 24 Feb 2018 19:13:30 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 27 Feb 2018 00:39:44 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hugo备忘</title>
+      <link>https://hapi666.github.io/post/hugo%E5%A4%87%E5%BF%98/</link>
+      <pubDate>Tue, 27 Feb 2018 00:39:44 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/hugo%E5%A4%87%E5%BF%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go的导出规则</title>
+      <link>https://hapi666.github.io/post/go%E7%9A%84%E5%AF%BC%E5%87%BA%E8%A7%84%E5%88%99/</link>
+      <pubDate>Mon, 26 Feb 2018 22:39:19 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/go%E7%9A%84%E5%AF%BC%E5%87%BA%E8%A7%84%E5%88%99/</guid>
+      <description> Go导出规则 变量、函数/方法、结构体字段。均分为可导出和不可导出。
+什么叫可导出呢？
+可以被其他package访问，例如otherpackage.Func
+不可导出也显而易见了，就是不可以被其他package用的
+对于变量 / 函数/方法 / 结构体字段 1.首字符为大写字母
+2.该变量在package中已声明
+示例代码如下：
+package xxx var W int func F(){ ... } type S struct { T1 //字段名字是 T1 *T2 //字段名字是 T2 P.T3 //字段名字是 T3 x, y int //字段名字是 x 和 y }  </description>
+    </item>
     
     <item>
       <title>Go里面的传参和传引用</title>

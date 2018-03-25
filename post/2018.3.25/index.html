@@ -17,15 +17,15 @@
 	
         <meta property="og:site_name" content="一只傻哈皮">
         <meta property="og:title" content="一只傻哈皮">
-        <meta property="og:url" content="https://hapi666.github.io/post/2018.2.24/">
+        <meta property="og:url" content="https://hapi666.github.io/post/2018.3.25/">
         <meta property="og:description" content="有梦想的年轻人！">
     
         <meta property="og:type" content="article" />
         <meta property="og:article:author" content="哈皮" />
-        <meta property="og:article:published_time" content="2018-02-24T19:13:30&#43;08:00" />
+        <meta property="og:article:published_time" content="2018-03-25T21:06:49&#43;08:00" />
     
         <meta name="generator" content="Hugo 0.30" />
-        <title>Go里面的传参和传引用 &middot; 一只傻哈皮</title>
+        <title>defer及闭包函数 &middot; 一只傻哈皮</title>
         <link rel="canonical" href="https://hapi666.github.io/" />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="">
         <link rel="stylesheet" type="text/css" href="https://hapi666.github.io/css/main.css"/>
@@ -47,51 +47,91 @@
 	<div class="container">
 		<article class="post">
 	<header class="post-header">
-        <h3 class="p-post-title">Go里面的传参和传引用</h3>
+        <h3 class="p-post-title">defer及闭包函数</h3>
     </header>
 
     <section class="post-content">
         
 
-<h3 id="关于go里面传参和传引用">关于Go里面传参和传引用</h3>
+<h3 id="defer及闭包函数">defer及闭包函数</h3>
 
-<p>Go函数或方法中参数列表里面的都是值传递！！（包括Slice,chan,map）</p>
+<h4 id="defer">defer</h4>
 
-<p>当闭包使用到外部变量的时候使用的是该变量的引用类型，闭包函数的参数列表也是值传递！</p>
+<pre><code class="language-go">package main
 
-<h4 id="传值-值传递">传值（值传递）</h4>
+import &quot;fmt&quot;
 
-<p>首先了解一下什么是值传递</p>
+/*
+	看这个代码会疑惑结果为何不是4
+   调用任何一个函数前都要先对函数的参数进行求值，之后再进入函数体，只不过defer将进入函数执行的过程推迟到defer的调用方退出之前了
+*/
 
-<p>传值的意思是：函数传递的总是原来这个东西的一个副本，一副拷贝。比如我们传递一个<code>int</code>类型的参数，传递的其实是这个参数的一个副本；传递一个指针类型的参数，其实传递的是这个该指针的一份拷贝，而不是这个指针指向的值。</p>
+func main() {
+    var i int = 1
 
-<p>这是int类型的值传递效果</p>
+    defer fmt.Println(&quot;result =&gt;&quot;,func() int { return i * 2 }())
+    i++
+}
 
-<p><img src="https://hapi666.github.io/image/int.png" alt="" /></p>
+</code></pre>
 
-<p>不好理解的应该是指针的值传递，效果如下</p>
+<p>输出结果：result =&gt; 2</p>
 
-<p><img src="https://hapi666.github.io/image/pointer.png" alt="" /></p>
+<pre><code class="language-go">package main
 
-<p><img src="https://hapi666.github.io/image/understand_pointer.png" alt="" /></p>
+import (
+     &quot;fmt&quot;
+    &quot;time&quot;
+)
 
-<p>很明显了，我可以这么理解：对于一个存储整数10的变量i，它其实是一个指针，指向内存中存储整数10的地址，而指向i的指针p是指向了i 的地址而不是指向了整数10的地址。指针p是指向指针的指针。同样的可以看到函数test里面的参数列表是指针p的一个拷贝，因为二者的地址不一样，但是二者却都可以修改i的值，可以知道，指针p 的拷贝也同样指向了指针i。</p>
+func main() {
+    var i int = 1
 
-<p>额，由于我C语言基础不好，指针就学的不太明白，所以由此我想到了，C语言里面的指针也是传的拷贝吗？于是我验证了一下。</p>
+    go fmt.Println(&quot;result =&gt;&quot;,func() int { return i * 2 }())
+    i++
+    time.Sleep(3*time.Second)
+}
+</code></pre>
 
-<p><img src="https://hapi666.github.io/image/Cpointer.png" alt="" /></p>
+<p>输出结果：result =&gt; 2</p>
 
-<p>结果也显而易见，C语言同Go语言一样。</p>
+<p>所以，无论是go关键字还是defer关键字，在代码执行到它们时，<strong>编译器都要为它们后面的函数准备好函数调用的参数堆栈，要确定的参数值和参数类型大小</strong> 。这样一来就得去求值：对它们后面的函数的参数进行 求值。</p>
 
-<h4 id="传引用-引用传递">传引用（引用传递）</h4>
+<p>那么，如何才能输出4呢？</p>
 
-<p>首先，Go语言中是没有引用传递的，所以无法用Go代码来解释。</p>
+<h4 id="闭包">闭包</h4>
 
-<p>我们通过说明描述一下：</p>
+<pre><code class="language-go">package main
 
-<p>如果test()里面打印出的地址是不变的，那么才是引用传递。</p>
+import &quot;fmt&quot;
 
-<h5 id="map为何是引用传递">Map为何是引用传递？</h5>
+func main() {
+	/*
+	无参闭包
+	执行函数体是用外部的引用
+	*/
+	var i int = 1
+
+	defer func() {
+		fmt.Println(&quot;result0 =&gt;&quot;, func() int { return i * 2 }())//用的是i的引用
+	}()
+	i++
+	/*
+	有参闭包
+	先计算此时函数的参数列表，也是引用，但是 是此时的引用
+	执行函数体时用直接用当时计算出来的参数
+	*/
+	var ii int = 1
+	defer func(ii int){//此时计算出ii得1
+		fmt.Println(&quot;result1 =&gt;&quot;, func() int { return ii * 2 }())//用的是此时外部的ii的值，与defer fmt.Println(&quot;result =&gt;&quot;,func() int { return i * 2 }())等价
+	}(ii)
+	ii++
+}
+</code></pre>
+
+<p>输出结果：result1 =&gt; 2</p>
+
+<p>result0 =&gt; 4</p>
 
     </section>
 
@@ -105,21 +145,21 @@
             </section>
             
             
-            <p class="f-post-time"><time datetime="2018-02-24T19:13:30&#43;08:00">February 24, 2018</time></p>
+            <p class="f-post-time"><time datetime="2018-03-25T21:06:49&#43;08:00">March 25, 2018</time></p>
         </section>
                         
         <section class="f-2">
             <section class="share">
                 <span>Share:
-                <a class="icon-twitter" href="http://twitter.com/share?text=Go%e9%87%8c%e9%9d%a2%e7%9a%84%e4%bc%a0%e5%8f%82%e5%92%8c%e4%bc%a0%e5%bc%95%e7%94%a8&url=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.2.24%2f"
+                <a class="icon-twitter" href="http://twitter.com/share?text=defer%e5%8f%8a%e9%97%ad%e5%8c%85%e5%87%bd%e6%95%b0&url=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.3.25%2f"
                     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                     <i class="fa fa-twitter"></i>
                 </a>
-                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.2.24%2f"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.3.25%2f"
                     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                     <i class="fa fa-facebook"></i>
                 </a>
-                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.2.24%2f"
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2f2018.3.25%2f"
                    onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
                     <i class="fa fa-google-plus"></i>
                 </a>

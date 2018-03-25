@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2018</copyright>
-    <lastBuildDate>Tue, 27 Feb 2018 00:39:44 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 25 Mar 2018 21:06:49 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>defer及闭包函数</title>
+      <link>https://hapi666.github.io/post/2018.3.25/</link>
+      <pubDate>Sun, 25 Mar 2018 21:06:49 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/2018.3.25/</guid>
+      <description>defer及闭包函数 defer package main import &amp;quot;fmt&amp;quot; /* 看这个代码会疑惑结果为何不是4 调用任何一个函数前都要先对函数的参数进行求值，之后再进入函数体，只不过defer将进入函数执行的过程推迟到defer的调用方退出之前了 */ func main() { var i int = 1 defer fmt.Println(&amp;quot;result =&amp;gt;&amp;quot;,func() int { return i * 2 }()) i++ }  输出结果：result =&amp;gt; 2
+package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; ) func main() { var i int = 1 go fmt.Println(&amp;quot;result =&amp;gt;&amp;quot;,func() int { return i * 2 }()) i++ time.Sleep(3*time.Second) }  输出结果：result =&amp;gt; 2
+所以，无论是go关键字还是defer关键字，在代码执行到它们时，编译器都要为它们后面的函数准备好函数调用的参数堆栈，要确定的参数值和参数类型大小 。这样一来就得去求值：对它们后面的函数的参数进行 求值。</description>
+    </item>
     
     <item>
       <title>Hugo备忘</title>
@@ -44,7 +55,7 @@ package xxx var W int func F(){ ... } type S struct { T1 //字段名字是 T1 *T
       <pubDate>Sat, 24 Feb 2018 19:13:30 +0800</pubDate>
       
       <guid>https://hapi666.github.io/post/2018.2.24/</guid>
-      <description>关于Go里面传参和传引用 Go函数或方法中参数列表里面的都是值传递！！（包括Slice,chan,map）
+      <description> 关于Go里面传参和传引用 Go函数或方法中参数列表里面的都是值传递！！（包括Slice,chan,map）
 当闭包使用到外部变量的时候使用的是该变量的引用类型，闭包函数的参数列表也是值传递！
 传值（值传递） 首先了解一下什么是值传递
 传值的意思是：函数传递的总是原来这个东西的一个副本，一副拷贝。比如我们传递一个int类型的参数，传递的其实是这个参数的一个副本；传递一个指针类型的参数，其实传递的是这个该指针的一份拷贝，而不是这个指针指向的值。
@@ -52,7 +63,11 @@ package xxx var W int func F(){ ... } type S struct { T1 //字段名字是 T1 *T
 不好理解的应该是指针的值传递，效果如下
 很明显了，我可以这么理解：对于一个存储整数10的变量i，它其实是一个指针，指向内存中存储整数10的地址，而指向i的指针p是指向了i 的地址而不是指向了整数10的地址。指针p是指向指针的指针。同样的可以看到函数test里面的参数列表是指针p的一个拷贝，因为二者的地址不一样，但是二者却都可以修改i的值，可以知道，指针p 的拷贝也同样指向了指针i。
 额，由于我C语言基础不好，指针就学的不太明白，所以由此我想到了，C语言里面的指针也是传的拷贝吗？于是我验证了一下。
-结果也显而易见，C语言同Go语言一样。</description>
+结果也显而易见，C语言同Go语言一样。
+传引用（引用传递） 首先，Go语言中是没有引用传递的，所以无法用Go代码来解释。
+我们通过说明描述一下：
+如果test()里面打印出的地址是不变的，那么才是引用传递。
+Map为何是引用传递？ </description>
     </item>
     
     <item>

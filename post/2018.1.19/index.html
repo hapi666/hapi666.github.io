@@ -186,12 +186,16 @@ fmt.Printf(&quot;- plst is long enough\n&quot;)
 </code></pre>
 
 <p>讨论
-在 lst 上调用 CountInto 时会导致一个编译器错误，因为 CountInto 需要一个
-Appender ，而它的方法 Append 只定义在指针上。 在 lst 上调用 LongEnough 是可以的因
-为 &lsquo;Len&rsquo; 定义在值上。
-在 plst 上调用 CountInto 是可以的，因为 CountInto 需要一个 Appender ，并且它的方法 Append 定义在指针上。在 plst 上调用 LongEnough 也是可以的，因为指针会被自动解引用。
-总结：
-在接口上调用方法时，必须有和方法定义时相同的接收者类型或者是可以从具体类型 P 直接可以辨识的：
+在 lst 上调用 CountInto 时会导致一个编译器错误，因为 CountInto 需要一个Appender ， 而它的方法 Append 只定义在指针上。</p>
+
+<p>在 lst 上调用 LongEnough 是可以的因为 &lsquo;Len&rsquo; 定义在值上。
+在 plst 上调用 CountInto 是可以的，因为 CountInto 需要一个 Appender ，并且它的方法 Append 定义在指针上。</p>
+
+<p>在 plst 上调用 LongEnough 也是可以的，因为指针会被自动解引用。</p>
+
+<p>总结：</p>
+
+<p>在接口上调用方法时，必须有和方法定义时相同的接收者类型或者是可以从具体类型 P 直接可以辨识的：
 ​   ·指针方法可以通过指针调用
 ​   ·值方法可以通过值调用
 ​   ·接收者是值的方法可以通过指针调用，因为指针会首先被解引用

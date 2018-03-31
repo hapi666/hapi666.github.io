@@ -135,12 +135,21 @@ cookie存储在客户端，但对cookie的操作在后端，比如比较cookie�
 	
 		<article class="li post">
     <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.23/">很小很杂的点</a></h3>
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.23/">凌乱的知识</a></h3>
         <p class="post-time"><time datetime="2018-01-23T22:44:01&#43;08:00">January 23, 2018</time></p>
     </header>
     
     <section class="post-excerpt">
-        <p>stat()函数 //是通过文件名filename来获取文件的属性值</p>
+        <p>stat()函数 //是通过文件名filename来获取文件的属性值
+ os.MkdirAll(path string, perm FileMode) error //创建一个名为path的目录以及任何必要的父项，并返回nil，否则返回错误。perm是Linux里面的文件权限的东西，如果path是一个目录，则MkdirAll什么也不做，返回nil. 也就是说，path存在就直接返回nil，如果不存在就创建出来。
+ yaml.Unmarshal(in []byte, out interface{}) (err error) //把in解析成out的类型，并存储在out里
+ errors.Wrap(err error, message string) error //举个例子就明白了
+  Code:
+cause := errors.New(&quot;whoops&quot;) err := errors.Wrap(cause, &quot;oh noes&quot;) fmt.Println(err)  ​ Output:
+oh noes: whoops   2006-01-02 15:04这个time 是Go语言的诞辰。  Code:
+fmt.Println(time.Now().Format(&quot;2006-01-02 15:04:05&quot;))  Output:
+2018-03-31 20:57:04  输出的是当前时间。
+​</p>
     </section>
 
     <footer class="post-footer">

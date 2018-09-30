@@ -2,21 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>一只傻哈皮</title>
-    <link>http://hapi666.github.io/</link>
+    <link>https://hapi666.github.io/</link>
     <description>Recent content on 一只傻哈皮</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh_CN</language>
+    <copyright>All rights reserved - 2017</copyright>
     <lastBuildDate>Fri, 28 Sep 2018 19:23:53 +0800</lastBuildDate>
     
-	<atom:link href="http://hapi666.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hapi666.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Defer</title>
-      <link>http://hapi666.github.io/post/defer/</link>
+      <link>https://hapi666.github.io/post/defer/</link>
       <pubDate>Fri, 28 Sep 2018 19:23:53 +0800</pubDate>
       
-      <guid>http://hapi666.github.io/post/defer/</guid>
+      <guid>https://hapi666.github.io/post/defer/</guid>
       <description>Defer使用时的坑 先看几个例子
 1.
 func f() (result int) { defer func() { result++ }() return 0 }  2.

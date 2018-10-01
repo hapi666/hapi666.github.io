@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Fri, 28 Sep 2018 19:23:53 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Oct 2018 21:37:55 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于Slice的几点总结</title>
+      <link>https://hapi666.github.io/post/slice/</link>
+      <pubDate>Mon, 01 Oct 2018 21:37:55 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/slice/</guid>
+      <description> var和make定义方式 使用var定义 var intSlice []int var stringSlice []string //等等，不多余赘述。  使用make定义 mSlice:=make([]type,len,cap) //len是mSlice的长度，cap是mSlice的容量 //长度是已有长度，容量是这个slice的最大长度  下面这两种定义效果一样 var s1 []int s2:=make([]int,0,0)  使用make定义slice的几种方式比较 1.长度和容量都是0，即make([]type,0,0)或make([]type,0) s1:=make([]int,0) for i=0;i&amp;lt;10;i++ { s1=append(s1,i) fmt.Printf(&amp;quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&amp;quot;,s1,s1,len(s1),cap(s1)) }  结论 ：切片长度容量是不断变化的，并且不断重新分配内存，所以效率低下。
+2.长度是0，容量不是0，即make([]type,0,cap) s2:=make([]int,0,10) for i=0;i&amp;lt;10;i++ { s2=append(s2,i) fmt.Printf(&amp;quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&amp;quot;,s2,s2,len(s2),cap(s2)) }  结论：切片长度不断变化，容量不变，内存不重新分配，所以效率高。
+3.长度容量都不是0，即make([]type,len,cap) s3:=make([]int,10,10) for i=0;i&amp;lt;10;i++ { s3=append(s3,i) fmt.Printf(&amp;quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&amp;quot;,s3,s3,len(s3),cap(s3)) }  结论：切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。
+4. </description>
+    </item>
     
     <item>
       <title>Defer</title>

@@ -12,8 +12,8 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="author" content="哈皮">
-  
+        <meta name="author" content="一只傻哈皮">
+        <meta name="keywords" content="awesome, definitely">
 	
         <meta property="og:site_name" content="一只傻哈皮">
         <meta property="og:title" content="一只傻哈皮">
@@ -21,19 +21,24 @@
         <meta property="og:description" content="有梦想的年轻人！">
     
         <meta property="og:type" content="article" />
-        <meta property="og:article:author" content="哈皮" />
-        <meta property="og:article:published_time" content="2018-03-28T18:31:40&#43;08:00" />
+        <meta property="og:article:author" content="一只傻哈皮" />
+        <meta property="og:article:published_time" content="2018-10-01T21:37:55&#43;08:00" />
     
-        <meta name="generator" content="Hugo 0.30" />
-        <title>Slice &middot; 一只傻哈皮</title>
+        <meta name="generator" content="Hugo 0.49" />
+        <title>关于Slice的几点总结 &middot; 一只傻哈皮 </title>
         <link rel="canonical" href="https://hapi666.github.io/" />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="">
-        <link rel="stylesheet" type="text/css" href="https://hapi666.github.io/css/main.css"/>
-        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type='text/css' href="https://hapi666.github.io/css/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700' rel='stylesheet' type='text/css'>
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    </head>
+        <link href="https://hapi666.github.io/css/syntax-highlighting.css" rel="stylesheet" />
+        <link rel="icon" href="http://donw.io/favicon.ico?v=2" />
+        <script src="https://hapi666.github.io/js/prism.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
 
+        
+    </head>
 <body>
 <!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
 
@@ -41,45 +46,96 @@
         <div class="container">
             <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
             <p class="blog-description">有梦想的年轻人！</p>
+			
+			        
+                    
+			
+			
         </div>
     </header>
 <main class="content" role="main">
 	<div class="container">
 		<article class="post">
 	<header class="post-header">
-        <h3 class="p-post-title">Slice</h3>
+        <h3 class="p-post-title">关于Slice的几点总结</h3>
     </header>
 
     <section class="post-content">
-        <p><img src="https://hapi666.github.io/image/slice.png" alt="" /></p>
+        
 
-<p>这个是slice的复用</p>
+<h1 id="var和make定义方式">var和make定义方式</h1>
 
-<p>做个数组，然后再切个片来用，没超1000的时候就是复用，超了再分配。</p>
+<h5 id="使用-var-定义">使用<code>var</code>定义</h5>
 
-<p>s = buffer[:0] 复用之前务必确认所有指向buffer的切片、切过的切片都断开引用，不再指向buffer</p>
+<pre><code class="language-go">var intSlice []int
+var stringSlice []string
+//等等，不多余赘述。
+</code></pre>
 
-<p><img src="https://hapi666.github.io/image/sliceReset.png" alt="" /></p>
+<h5 id="使用-make-定义">使用<code>make</code>定义</h5>
+
+<pre><code class="language-go">mSlice:=make([]type,len,cap)
+//len是mSlice的长度，cap是mSlice的容量
+//长度是已有长度，容量是这个slice的最大长度
+</code></pre>
+
+<h5 id="下面这两种定义效果一样">下面这两种定义效果一样</h5>
+
+<pre><code class="language-go">var s1 []int
+s2:=make([]int,0,0)
+</code></pre>
+
+<h1 id="使用make定义slice的几种方式比较">使用make定义slice的几种方式比较</h1>
+
+<h5 id="1-长度和容量都是0-即make-type-0-0-或make-type-0">1.长度和容量都是0，即make([]type,0,0)或make([]type,0)</h5>
+
+<pre><code class="language-go">s1:=make([]int,0)
+for i=0;i&lt;10;i++ {
+    s1=append(s1,i)
+    fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s1,s1,len(s1),cap(s1))
+}
+</code></pre>
+
+<p><code>结论</code> ：切片长度容量是不断变化的，并且不断重新分配内存，所以效率低下。</p>
+
+<h5 id="2-长度是0-容量不是0-即make-type-0-cap">2.长度是0，容量不是0，即make([]type,0,cap)</h5>
+
+<pre><code class="language-go">s2:=make([]int,0,10)
+for i=0;i&lt;10;i++ {
+    s2=append(s2,i)
+    fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s2,s2,len(s2),cap(s2))
+}
+</code></pre>
+
+<p><code>结论</code>：切片长度不断变化，容量不变，内存不重新分配，所以效率高。</p>
+
+<h5 id="3-长度容量都不是0-即make-type-len-cap">3.长度容量都不是0，即make([]type,len,cap)</h5>
+
+<pre><code class="language-go">s3:=make([]int,10,10)
+for i=0;i&lt;10;i++ {
+    s3=append(s3,i)
+    fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s3,s3,len(s3),cap(s3))
+}
+</code></pre>
+
+<p><code>结论</code>：切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。</p>
+
+<h5 id="4">4.</h5>
 
     </section>
 
     <hr>
 
     <footer class="post-footer">
-        <section class="f-1">
+        <section class="f-1">            
             
-            <section class="author">
-                <p>Words by 哈皮</p>
-            </section>
-            
-            
-            <p class="f-post-time"><time datetime="2018-03-28T18:31:40&#43;08:00">March 28, 2018</time></p>
+            <p class="f-post-time"><time datetime="2018-10-01T21:37:55&#43;08:00">October 1, 2018</time></p>
         </section>
                         
         <section class="f-2">
             <section class="share">
                 <span>Share:
-                <a class="icon-twitter" href="http://twitter.com/share?text=Slice&url=https%3a%2f%2fhapi666.github.io%2fpost%2fslice%2f"
+                <a class="icon-twitter" href="http://twitter.com/share?text=%e5%85%b3%e4%ba%8eSlice%e7%9a%84%e5%87%a0%e7%82%b9%e6%80%bb%e7%bb%93&url=https%3a%2f%2fhapi666.github.io%2fpost%2fslice%2f"
                     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                     <i class="fa fa-twitter"></i>
                 </a>
@@ -93,23 +149,28 @@
                 </a>
                 </span>
             </section>
-
-            
         </section>
-                        
     </footer>
+    
+<div id="gh-comments">
+    <br/><br/>
+    <h6>COMMENTS</h6>
+    <div id="gh-comments-list"></div>
+    <a href="javascript:void(0)" id="gh-load-comments" class="btn" style="display:none">Load more comments</a>
+</div>
+
+<script type="text/javascript" src="https://hapi666.github.io/js/github-comments.js"></script>
+<script type="text/javascript">
+    DoGithubComments( null );
+</script>
+
 </article>
 	</div>
 </main>
     <footer id="site-footer">
         <div class="container">
-          
-          
-          
-          
-          <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
-          <section>&copy; <a href="https://hapi666.github.io/">哈皮</a> 2017 | All rights reserved</section>
-          <section>Theme by <a href="http://www.jrdnbwmn.com">Jordan Bowman</a>. Generated with <a href="http://gohugo.io/">Hugo</a>.</section>
+            <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+            <section>&copy; <a href="https://hapi666.github.io/">一只傻哈皮</a> 2016 | All rights reserved</section>
         </div>
     </footer>
 
@@ -118,6 +179,7 @@
       $(".heading").fitText();
     </script>
 
+    
 
 
 </body>

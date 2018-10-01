@@ -63,7 +63,7 @@
     <section class="post-content">
         
 
-<h1 id="var和make定义方式">var和make定义方式</h1>
+<h3 id="var和make定义方式">var和make定义方式</h3>
 
 <h5 id="使用-var-定义">使用<code>var</code>定义</h5>
 
@@ -85,7 +85,7 @@ var stringSlice []string
 s2:=make([]int,0,0)
 </code></pre>
 
-<h1 id="使用make定义slice的几种方式比较">使用make定义slice的几种方式比较</h1>
+<h3 id="使用make定义slice的几种方式比较">使用make定义slice的几种方式比较</h3>
 
 <h5 id="1-长度和容量都是0-即make-type-0-0-或make-type-0">1.长度和容量都是0，即make([]type,0,0)或make([]type,0)</h5>
 
@@ -96,7 +96,7 @@ for i=0;i&lt;10;i++ {
 }
 </code></pre>
 
-<p><code>结论</code> ：切片长度容量是不断变化的，并且不断重新分配内存，所以效率低下。</p>
+<p><strong><code>结论</code></strong> ：<strong>切片长度容量是不断变化的，并且不断重新分配内存，所以效率低下。</strong></p>
 
 <h5 id="2-长度是0-容量不是0-即make-type-0-cap">2.长度是0，容量不是0，即make([]type,0,cap)</h5>
 
@@ -107,7 +107,7 @@ for i=0;i&lt;10;i++ {
 }
 </code></pre>
 
-<p><code>结论</code>：切片长度不断变化，容量不变，内存不重新分配，所以效率高。</p>
+<p><strong><code>结论</code></strong>：<strong>切片长度不断变化，容量不变，内存不重新分配，所以效率高。</strong></p>
 
 <h5 id="3-长度容量都不是0-即make-type-len-cap">3.长度容量都不是0，即make([]type,len,cap)</h5>
 
@@ -118,7 +118,7 @@ for i=0;i&lt;10;i++ {
 }
 </code></pre>
 
-<p><code>结论</code>：切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。</p>
+<p><strong><code>结论</code></strong>：<strong>切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。</strong></p>
 
 <h5 id="4">4.</h5>
 

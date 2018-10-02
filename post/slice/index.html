@@ -120,7 +120,7 @@ for i=0;i&lt;10;i++ {
 
 <p><strong><code>结论</code></strong>：<strong>切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。</strong></p>
 
-<h5 id="4">4.</h5>
+<h6 id="综合以上结论考虑-建议使用第二种make方式定义slice-即make-type-0-cap"><strong><code>综合以上结论考虑</code></strong>：建议使用第二种make方式定义slice 即make([]type,0,cap)</h6>
 
     </section>
 

@@ -62,16 +62,21 @@
     
     <section class="post-excerpt">
         <p>HTML的学习开始了 嵌套元素 &lt;p&gt; My dog is &lt;strong&gt;very&lt;/strong&gt; grumpy. &lt;/p&gt;  嵌套就是指标签的嵌套而已，非常简单，也很好理解。
-块级元素和内联元素 块级元素()单独成一行，而内联元素(比如、等)通常嵌套在块级元素内。
+####块级元素和内联元素
+块级元素(&lt;p&gt;)单独成一行，而内联元素(比如&lt;em&gt;、&lt;strong&gt;等)通常嵌套在块级元素内。
 &lt;body&gt; &lt;p&gt; 我的GitHub:&lt;em&gt;https://github.com/hapi666&lt;/em&gt; &lt;/p&gt; &lt;/body&gt;  也很好理解，好，继续。
 空元素 不是所有元素都拥有开始标签，内容和结束标记. 一些元素只有一个标签，通常在此元素所在位置插入/嵌入一些东西。例如&lt;img&gt;是用来在&lt;img&gt;位置插入一张指定图片的。
-&lt;img src=&quot;https://raw.githubusercontent.com/mdn/beginner-html-site/gh-pages/images/firefox-icon.png&quot;&gt;  属性 元素可以拥有属性。属性也有很多。
-&lt;a class=&quot;link-github&quot; href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;  布尔属性 有时你会看到没有具体值的属性，首先，它是合法的，它被我们称为布尔属性。它们只有跟它们属性名一样的属性值。例如disabled属性，它们可以标记表单输入使之变为不可用(变灰色)，此时用户不能向它们输入任何数据。
-&lt;input type=&quot;text&quot; disabled&gt;  省略包围属性值的引号 当你浏览那些粗糙的web网站，你将会看见各种各样奇怪的标记风格，其中就有不给属性值添加引号。在某些情况下它是被允许的，但是其他情况下会破坏你的标记。例如，我们可以写一个只拥有一个href属性的链接，如下：
+&lt;img src=&quot;https://raw.githubusercontent.com/mdn/beginner-html-site/gh-pages/images/firefox-icon.png&quot;&gt;  ####属性
+元素可以拥有属性。属性也有很多。
+&lt;a class=&quot;link-github&quot; href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;  ####布尔属性
+有时你会看到没有具体值的属性，首先，它是合法的，它被我们称为布尔属性。它们只有跟它们属性名一样的属性值。例如disabled属性，它们可以标记表单输入使之变为不可用(变灰色)，此时用户不能向它们输入任何数据。
+&lt;input type=&quot;text&quot; disabled&gt;  ####省略包围属性值的引号
+当你浏览那些粗糙的web网站，你将会看见各种各样奇怪的标记风格，其中就有不给属性值添加引号。在某些情况下它是被允许的，但是其他情况下会破坏你的标记。例如，我们可以写一个只拥有一个href属性的链接，如下：
 &lt;a href=https://www.mozilla.org/&gt;favorite website&lt;/a&gt;  然而，当我们再添加一个title属性时就会出错，如下：
 &lt;a href=https://www.mozilla.org/ title=The Mozilla homepage&gt;favorite website&lt;/a&gt;  此时浏览器会误解你的标记，它会把title属性理解为三个属性——title的属性值为&rdquo;The“，另外还有两个布尔属性“Mozilla”和“homepage”。看下面的例子，它明显不是我们所期望的，并且在这个编码里面它会报错或者出现异常行为。试一试把鼠标移动到连接上，看会显示什么title属性值!（是The）
 所以强烈建议为属性值加引号
-单引号VS双引号 这只是风格习惯问题，用哪个都可以。
+####单引号VS双引号
+这只是风格习惯问题，用哪个都可以。
 但是如果你想将引号作为文本显示在HTML中，你就必须“转义”一下，就是引用它的实体。举个例子：
 &lt;p&gt;In HTML, you define a paragraph using the &quot;element&quot;.&lt;/p&gt; &lt;p&gt;In HTML, you define a paragraph using the &amp;quot;element&amp;quot;.</p>
     </section>

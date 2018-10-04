@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" prefix="og: http://ogp.me/ns#" xmlns:og="http://ogp.me/ns#"><!--<![endif]-->
+
+    <head>
+                <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="author" content="一只傻哈皮">
+        <meta name="keywords" content="awesome, definitely">
+	
+        <meta property="og:site_name" content="一只傻哈皮">
+        <meta property="og:title" content="一只傻哈皮">
+        <meta property="og:url" content="https://hapi666.github.io/post/html/">
+        <meta property="og:description" content="有梦想的年轻人！">
+    
+        <meta property="og:type" content="article" />
+        <meta property="og:article:author" content="一只傻哈皮" />
+        <meta property="og:article:published_time" content="2018-10-04T22:58:50&#43;08:00" />
+    
+        <meta name="generator" content="Hugo 0.49" />
+        <title>HTML &middot; 一只傻哈皮 </title>
+        <link rel="canonical" href="https://hapi666.github.io/" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="">
+        <link rel="stylesheet" type='text/css' href="https://hapi666.github.io/css/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700' rel='stylesheet' type='text/css'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <link href="https://hapi666.github.io/css/syntax-highlighting.css" rel="stylesheet" />
+        <link rel="icon" href="http://donw.io/favicon.ico?v=2" />
+        <script src="https://hapi666.github.io/js/prism.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
+
+        
+    </head>
+<body>
+<!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
+
+    <header id="site-header">
+        <div class="container">
+            <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
+            <p class="blog-description">有梦想的年轻人！</p>
+			
+			        
+                    
+			
+			
+        </div>
+    </header>
+<main class="content" role="main">
+	<div class="container">
+		<article class="post">
+	<header class="post-header">
+        <h3 class="p-post-title">HTML</h3>
+    </header>
+
+    <section class="post-content">
+        
+
+<h3 id="html的学习开始了">HTML的学习开始了</h3>
+
+<h6 id="嵌套元素">嵌套元素</h6>
+
+<pre><code class="language-html">&lt;p&gt;
+    My dog is &lt;strong&gt;very&lt;/strong&gt; grumpy.
+&lt;/p&gt;
+</code></pre>
+
+<p><strong>嵌套</strong>就是指<code>标签</code>的嵌套而已，非常简单，也很好理解。</p>
+
+<h6 id="块级元素和内联元素">块级元素和内联元素</h6>
+
+<p>块级元素(<p>)单独成一行，而内联元素(比如<em>、<strong>等)通常嵌套在块级元素内。</p>
+
+<pre><code class="language-html">&lt;body&gt;
+    &lt;p&gt;
+        我的GitHub:&lt;em&gt;https://github.com/hapi666&lt;/em&gt;
+    &lt;/p&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>也很好理解，好，继续。</p>
+
+<h6 id="空元素">空元素</h6>
+
+<p>不是所有元素都拥有开始标签，内容和结束标记. 一些元素只有一个标签，通常在此元素所在位置插入/嵌入一些东西。例如<code>&lt;img&gt;</code>是用来在<code>&lt;img&gt;</code>位置插入一张指定图片的。</p>
+
+<pre><code class="language-html">&lt;img src=&quot;https://raw.githubusercontent.com/mdn/beginner-html-site/gh-pages/images/firefox-icon.png&quot;&gt;
+</code></pre>
+
+<h6 id="属性">属性</h6>
+
+<p>元素可以拥有属性。属性也有很多。</p>
+
+<pre><code class="language-html">&lt;a class=&quot;link-github&quot; href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;
+</code></pre>
+
+<h6 id="布尔属性">布尔属性</h6>
+
+<p>有时你会看到没有具体值的属性，首先，它是合法的，它被我们称为布尔属性。它们只有跟它们属性名一样的属性值。例如<code>disabled</code>属性，它们可以标记表单输入使之变为不可用(变灰色)，此时用户不能向它们输入任何数据。</p>
+
+<pre><code class="language-html">&lt;input type=&quot;text&quot; disabled&gt;
+</code></pre>
+
+<h6 id="省略包围属性值的引号">省略包围属性值的引号</h6>
+
+<p>当你浏览那些粗糙的web网站，你将会看见各种各样奇怪的标记风格，其中就有不给属性值添加引号。在某些情况下它是被允许的，但是其他情况下会破坏你的标记。例如，我们可以写一个只拥有一个href属性的链接，如下：</p>
+
+<pre><code class="language-html">&lt;a href=https://www.mozilla.org/&gt;favorite website&lt;/a&gt;
+</code></pre>
+
+<p>然而，当我们再添加一个title属性时就会出错，如下：</p>
+
+<pre><code class="language-html">&lt;a href=https://www.mozilla.org/ title=The Mozilla homepage&gt;favorite website&lt;/a&gt;
+</code></pre>
+
+<p>此时浏览器会误解你的标记，它会把title属性理解为三个属性——title的属性值为&rdquo;The“，另外还有两个布尔属性“<code>Mozilla</code>”和“<code>homepage</code>”。看下面的例子，它明显不是我们所期望的，并且在这个编码里面它会报错或者出现异常行为。试一试把鼠标移动到连接上，看会显示什么title属性值!（是<code>The</code>）</p>
+
+<p><strong>所以强烈建议为属性值加引号</strong></p>
+
+<h6 id="单引号vs双引号">单引号VS双引号</h6>
+
+<p>这只是风格习惯问题，用哪个都可以。</p>
+
+<p>但是如果你想将引号作为文本显示在HTML中，你就必须“转义”一下，就是引用它的实体。举个例子：</p>
+
+<pre><code class="language-html">&lt;p&gt;In HTML, you define a paragraph using the &quot;element&quot;.&lt;/p&gt;
+
+&lt;p&gt;In HTML, you define a paragraph using the &amp;quot;element&amp;quot;.&lt;/p&gt;
+</code></pre>
+
+<p>在这里给一下HTML里所有需要“转义”的字符：</p>
+
+<table>
+<thead>
+<tr>
+<th>原义字符</th>
+<th>等价字符引用</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>&lt;</td>
+<td><code>&amp;lt;</code></td>
+</tr>
+
+<tr>
+<td>&gt;</td>
+<td><code>&amp;gt;</code></td>
+</tr>
+
+<tr>
+<td>&ldquo;</td>
+<td><code>&amp;quot;</code></td>
+</tr>
+
+<tr>
+<td>&lsquo;</td>
+<td><code>&amp;apos;</code></td>
+</tr>
+
+<tr>
+<td>&amp;</td>
+<td><code>&amp;amp;</code></td>
+</tr>
+</tbody>
+</table>
+
+<h6 id="分析html文档">分析HTML文档</h6>
+
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;My test page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;This is my page&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>分析如下:</p>
+
+<ol>
+<li><pre><code>&lt;!DOCTYPE html&gt;
+</code></pre>
+
+<dl>
+<dd>声明文档类型. 很久以前，早期的HTML(大约1991年2月)，文档类型声明类似于链接，规定了HTML页面必须遵从的良好规则，能自动检测错误和其他有用的东西。使用如下：</dd>
+</dl></li>
+</ol>
+
+<pre><code class="language-html">   &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+   &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+</code></pre>
+
+<p>然而现在没有人再这样写，需要保证每一个东西都正常工作已成为历史。你只需要知道</p>
+
+<pre><code>   &lt;!DOCTYPE html&gt;是最短的有效的文档声明。
+</code></pre>
+
+<ol>
+<li><p><code>&lt;html&gt;&lt;/html&gt;</code>: <code>&lt;html&gt;</code>元素。这个元素包裹了整个完整的页面，是一个根元素。</p></li>
+
+<li><p><code>&lt;head&gt;&lt;/head&gt;</code>: <code>&lt;head&gt;元素</code>. 这个元素是一个容器，它包含了所有你想包含在HTML页面中但不想在HTML页面中显示的内容。这些内容包括你想在搜索结果中出现的关键字和页面描述，CSS样式，字符集声明等等。以后的章节能学到更多关于<head>元素的内容。</p></li>
+
+<li><p><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code>: 这个元素设置文档使用utf-8字符集编码，utf-8字符集包含了人类大部分的文字。基本上他能识别你放上去的所有文本内容。毫无疑问要使用它，并且它能在以后避免很多其他问题。</p></li>
+
+<li><p><code>&lt;title&gt;&lt;/title&gt;</code>: 设置页面标题，出现在浏览器标签上，当你标记/收藏页面时它可用来描述页面。</p></li>
+
+<li><p><code>&lt;body&gt;&lt;/body&gt;</code>: <code>&lt;body&gt;</code>元素。 包含了你访问页面时所有显示在页面上的内容，文本，图片，音频，游戏等等。</p></li>
+</ol>
+
+    </section>
+
+    <hr>
+
+    <footer class="post-footer">
+        <section class="f-1">            
+            
+            <p class="f-post-time"><time datetime="2018-10-04T22:58:50&#43;08:00">October 4, 2018</time></p>
+        </section>
+                        
+        <section class="f-2">
+            <section class="share">
+                <span>Share:
+                <a class="icon-twitter" href="http://twitter.com/share?text=HTML&url=https%3a%2f%2fhapi666.github.io%2fpost%2fhtml%2f"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2fhtml%2f"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2fhtml%2f"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                </span>
+            </section>
+        </section>
+    </footer>
+    
+<div id="gh-comments">
+    <br/><br/>
+    <h6>COMMENTS</h6>
+    <div id="gh-comments-list"></div>
+    <a href="javascript:void(0)" id="gh-load-comments" class="btn" style="display:none">Load more comments</a>
+</div>
+
+<script type="text/javascript" src="https://hapi666.github.io/js/github-comments.js"></script>
+<script type="text/javascript">
+    DoGithubComments( null );
+</script>
+
+</article>
+	</div>
+</main>
+    <footer id="site-footer">
+        <div class="container">
+            <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+            <section>&copy; <a href="https://hapi666.github.io/">一只傻哈皮</a> 2016 | All rights reserved</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://hapi666.github.io/js/fittext.js"></script>
+    <script type="text/javascript">
+      $(".heading").fitText();
+    </script>
+
+    
+
+
+</body>
+</html>

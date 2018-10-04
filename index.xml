@@ -20,7 +20,7 @@
       <guid>https://hapi666.github.io/post/html/</guid>
       <description>HTML的学习开始了 嵌套元素 &amp;lt;p&amp;gt; My dog is &amp;lt;strong&amp;gt;very&amp;lt;/strong&amp;gt; grumpy. &amp;lt;/p&amp;gt;  嵌套就是指标签的嵌套而已，非常简单，也很好理解。
 ####块级元素和内联元素
-块级元素(&amp;lt;p&amp;gt;)单独成一行，而内联元素(比如&amp;lt;em&amp;gt;、&amp;lt;strong&amp;gt;等)通常嵌套在块级元素内。
+块级元素比如&amp;lt;p&amp;gt;单独成一行，而内联元素比如&amp;lt;em&amp;gt;、&amp;lt;strong&amp;gt;等通常嵌套在块级元素内。
 &amp;lt;body&amp;gt; &amp;lt;p&amp;gt; 我的GitHub:&amp;lt;em&amp;gt;https://github.com/hapi666&amp;lt;/em&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;/body&amp;gt;  也很好理解，好，继续。
 空元素 不是所有元素都拥有开始标签，内容和结束标记. 一些元素只有一个标签，通常在此元素所在位置插入/嵌入一些东西。例如&amp;lt;img&amp;gt;是用来在&amp;lt;img&amp;gt;位置插入一张指定图片的。
 &amp;lt;img src=&amp;quot;https://raw.githubusercontent.com/mdn/beginner-html-site/gh-pages/images/firefox-icon.png&amp;quot;&amp;gt;  ####属性

@@ -74,7 +74,7 @@
 
 <p><strong>嵌套</strong>就是指<code>标签</code>的嵌套而已，非常简单，也很好理解。</p>
 
-<p>####块级元素和内联元素</p>
+<h4 id="块级元素和内联元素">块级元素和内联元素</h4>
 
 <p>块级元素比如<code>&lt;p&gt;</code>单独成一行，而内联元素比如<code>&lt;em&gt;</code>、<code>&lt;strong&gt;</code>等通常嵌套在块级元素内。</p>
 
@@ -94,21 +94,21 @@
 <pre><code class="language-html">&lt;img src=&quot;https://raw.githubusercontent.com/mdn/beginner-html-site/gh-pages/images/firefox-icon.png&quot;&gt;
 </code></pre>
 
-<p>####属性</p>
+<h4 id="属性">属性</h4>
 
 <p>元素可以拥有属性。属性也有很多。</p>
 
 <pre><code class="language-html">&lt;a class=&quot;link-github&quot; href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;
 </code></pre>
 
-<p>####布尔属性</p>
+<h4 id="布尔属性">布尔属性</h4>
 
 <p>有时你会看到没有具体值的属性，首先，它是合法的，它被我们称为布尔属性。它们只有跟它们属性名一样的属性值。例如<code>disabled</code>属性，它们可以标记表单输入使之变为不可用(变灰色)，此时用户不能向它们输入任何数据。</p>
 
 <pre><code class="language-html">&lt;input type=&quot;text&quot; disabled&gt;
 </code></pre>
 
-<p>####省略包围属性值的引号</p>
+<h4 id="省略包围属性值的引号">省略包围属性值的引号</h4>
 
 <p>当你浏览那些粗糙的web网站，你将会看见各种各样奇怪的标记风格，其中就有不给属性值添加引号。在某些情况下它是被允许的，但是其他情况下会破坏你的标记。例如，我们可以写一个只拥有一个href属性的链接，如下：</p>
 
@@ -124,7 +124,7 @@
 
 <p><strong>所以强烈建议为属性值加引号</strong></p>
 
-<p>####单引号VS双引号</p>
+<h4 id="单引号vs双引号">单引号VS双引号</h4>
 
 <p>这只是风格习惯问题，用哪个都可以。</p>
 
@@ -173,7 +173,7 @@
 </tbody>
 </table>
 
-<p>####分析HTML文档</p>
+<h4 id="分析html文档">分析HTML文档</h4>
 
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -189,14 +189,15 @@
 
 <p>分析如下:</p>
 
-<ol>
-<li><pre><code>&lt;!DOCTYPE html&gt;
-</code></pre>
+<p>1.</p>
 
-<dl>
-<dd>声明文档类型. 很久以前，早期的HTML(大约1991年2月)，文档类型声明类似于链接，规定了HTML页面必须遵从的良好规则，能自动检测错误和其他有用的东西。使用如下：</dd>
-</dl></li>
+<ol>
+<li><code>
+&lt;!DOCTYPE html&gt;
+</code></li>
 </ol>
+
+<p>声明文档类型. 很久以前，早期的HTML(大约1991年2月)，文档类型声明类似于链接，规定了HTML页面必须遵从的良好规则，能自动检测错误和其他有用的东西。使用如下：</p>
 
 <pre><code class="language-html">   &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
    &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;

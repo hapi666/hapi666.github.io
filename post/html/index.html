@@ -65,7 +65,7 @@
 
 <h3 id="html的学习开始了">HTML的学习开始了</h3>
 
-<h4 id="嵌套元素">嵌套元素</h4>
+<h4 id="嵌套元素-http-hapi666-com-post-html-嵌套元素"><a href="http://hapi666.com/post/html#嵌套元素">嵌套元素</a></h4>
 
 <pre><code class="language-html">&lt;p&gt;
     My dog is &lt;strong&gt;very&lt;/strong&gt; grumpy.
@@ -74,7 +74,7 @@
 
 <p><strong>嵌套</strong>就是指<code>标签</code>的嵌套而已，非常简单，也很好理解。</p>
 
-<p>####块级元素和内联元素</p>
+<h4 id="块级元素和内联元素">块级元素和内联元素</h4>
 
 <p>块级元素比如<code>&lt;p&gt;</code>单独成一行，而内联元素比如<code>&lt;em&gt;</code>、<code>&lt;strong&gt;</code>等通常嵌套在块级元素内。</p>
 
@@ -94,21 +94,21 @@
 <pre><code class="language-html">&lt;img src=&quot;https://raw.githubusercontent.com/mdn/beginner-html-site/gh-pages/images/firefox-icon.png&quot;&gt;
 </code></pre>
 
-<p>####属性</p>
+<h4 id="属性">属性</h4>
 
 <p>元素可以拥有属性。属性也有很多。</p>
 
 <pre><code class="language-html">&lt;a class=&quot;link-github&quot; href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;
 </code></pre>
 
-<p>####布尔属性</p>
+<h4 id="布尔属性">布尔属性</h4>
 
 <p>有时你会看到没有具体值的属性，首先，它是合法的，它被我们称为布尔属性。它们只有跟它们属性名一样的属性值。例如<code>disabled</code>属性，它们可以标记表单输入使之变为不可用(变灰色)，此时用户不能向它们输入任何数据。</p>
 
 <pre><code class="language-html">&lt;input type=&quot;text&quot; disabled&gt;
 </code></pre>
 
-<p>####省略包围属性值的引号</p>
+<h4 id="省略包围属性值的引号">省略包围属性值的引号</h4>
 
 <p>当你浏览那些粗糙的web网站，你将会看见各种各样奇怪的标记风格，其中就有不给属性值添加引号。在某些情况下它是被允许的，但是其他情况下会破坏你的标记。例如，我们可以写一个只拥有一个href属性的链接，如下：</p>
 
@@ -124,7 +124,7 @@
 
 <p><strong>所以强烈建议为属性值加引号</strong></p>
 
-<p>####单引号VS双引号</p>
+<h4 id="单引号vs双引号-http-hapi666-com-post-html-单引号vs双引号"><a href="http://hapi666.com/post/html#单引号VS双引号">单引号VS双引号</a></h4>
 
 <p>这只是风格习惯问题，用哪个都可以。</p>
 
@@ -173,7 +173,7 @@
 </tbody>
 </table>
 
-<p>####分析HTML文档</p>
+<h4 id="分析html文档">分析HTML文档</h4>
 
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -189,34 +189,45 @@
 
 <p>分析如下:</p>
 
-<ol>
-<li></li>
-</ol>
+<p>1.</p>
 
-<p>&lt;!DOCTYPE html&gt;</p>
+<p>​   <code>&lt;!DOCTYPE html&gt;</code>: 声明文档类型。</p>
 
-<p>声明文档类型. 很久以前，早期的HTML(大约1991年2月)，文档类型声明类似于链接，规定了HTML页面必须遵从的良好规则，能自动检测错误和其他有用的东西。使用如下：</p>
+<p>2.</p>
 
-<pre><code class="language-html">   &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
-   &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+<p>​   <code>&lt;html&gt;&lt;/html&gt;</code> : 包裹了整个完整的网页，是一个根元素。</p>
+
+<p>3.</p>
+
+<p>​   <code>&lt;head&gt;&lt;/head&gt;</code> : 这个元素是一个容器，它包含了所有你想包含在HTML页面中但不想在HTML页面中显示的内容。比如CSS样式等等。</p>
+
+<p>4.</p>
+
+<p>​   <code>&lt;meta charset=&quot;utf-8&quot;&gt;</code> : 这个元素设置文档使用utf-8字符集编码。</p>
+
+<p>5.</p>
+
+<p>​   <code>&lt;title&gt;&lt;/title&gt;</code> : 设置页面标题，出现在浏览器标签上，当你标记/收藏页面是它用来描述页面。</p>
+
+<p>6.</p>
+
+<p>​   <code>&lt;body&gt;&lt;/body&gt;</code> : 包含了你访问页面时所有显示在页面上的内容，文本、图片、音频、游戏等等。</p>
+
+<h4 id="html中的空白">HTML中的空白</h4>
+
+<pre><code class="language-html">&lt;p&gt;
+    Dogs are silly.
+&lt;/p&gt;
+&lt;p&gt;
+    Dogs           are silly.
+&lt;/p&gt;
 </code></pre>
 
-<p>然而现在没有人再这样写，需要保证每一个东西都正常工作已成为历史。你只需要知道</p>
+<p>渲染的时候你会发现，无论你用了多少个空格，最后浏览器都会把它减少为一个空格符。</p>
 
-<pre><code>   &lt;!DOCTYPE html&gt;是最短的有效的文档声明。
-</code></pre>
+<h4 id="实体引用">实体引用</h4>
 
-<ol>
-<li><p><code>&lt;html&gt;&lt;/html&gt;</code>: <code>&lt;html&gt;</code>元素。这个元素包裹了整个完整的页面，是一个根元素。</p></li>
-
-<li><p><code>&lt;head&gt;&lt;/head&gt;</code>: <code>&lt;head&gt;元素</code>. 这个元素是一个容器，它包含了所有你想包含在HTML页面中但不想在HTML页面中显示的内容。这些内容包括你想在搜索结果中出现的关键字和页面描述，CSS样式，字符集声明等等。以后的章节能学到更多关于<head>元素的内容。</p></li>
-
-<li><p><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code>: 这个元素设置文档使用utf-8字符集编码，utf-8字符集包含了人类大部分的文字。基本上他能识别你放上去的所有文本内容。毫无疑问要使用它，并且它能在以后避免很多其他问题。</p></li>
-
-<li><p><code>&lt;title&gt;&lt;/title&gt;</code>: 设置页面标题，出现在浏览器标签上，当你标记/收藏页面时它可用来描述页面。</p></li>
-
-<li><p><code>&lt;body&gt;&lt;/body&gt;</code>: <code>&lt;body&gt;</code>元素。 包含了你访问页面时所有显示在页面上的内容，文本，图片，音频，游戏等等。</p></li>
-</ol>
+<p>请参阅 <a href="http://hapi666.com/post/html#单引号VS双引号">单引号VS双引号</a></p>
 
     </section>
 

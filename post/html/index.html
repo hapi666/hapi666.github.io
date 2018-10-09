@@ -229,6 +229,94 @@
 
 <p>请参阅 <a href="#单引号VS双引号">单引号VS双引号</a></p>
 
+<h4 id="html中的元数据">HTML中的元数据</h4>
+
+<p><em>Metadata</em> —元数据，即<code>&lt;meta&gt;</code> 标签</p>
+
+<p><code>&lt;head&gt;&lt;/head&gt;</code> 标签里包含页面的元数据</p>
+
+<p>例如，指定HTML文档的字符编码</p>
+
+<pre><code class="language-html">&lt;meta charset=&quot;utf-8&quot;&gt;
+</code></pre>
+
+<p>许多<code>&lt;meta&gt;</code> 标签包含了*name*和*content*属性：</p>
+
+<ul>
+<li><p>*name*属性指定了meta标签的类型，说明该元素包含了什么信息。</p></li>
+
+<li><p>*content*指定了实际的元数据内容。</p></li>
+</ul>
+
+<p>举个例子，</p>
+
+<pre><code class="language-html">  &lt;meta name=&quot;author&quot; content=&quot;Chris Mills&quot;&gt;
+  &lt;meta name=&quot;description&quot; content=&quot;The MDN Learning Area aims to provide
+  complete beginners to the Web with all they need to know to get
+  started with developing web sites and applications.&quot;&gt;
+</code></pre>
+
+<p>指定作者在某些情况下是很有用的：如果你需要联系页面的作者，问一些关于页面内容的问题。 一些内容管理系统能够自动获取页面作者的信息，然后用于某种目的。</p>
+
+<p>指定包含关于页面内容的关键字的页面内容的描述是很有用的，因为它可能或让你的页面在搜索引擎的相关的搜索出现得更多。</p>
+
+<p><img src="https://mdn.mozillademos.org/files/15780/Screen%20Shot%202018-01-24%20at%2017.35.04.png" alt="" /></p>
+
+<p>可以看到，MDN Web Docs下面的文字就是*content*里面的内容。</p>
+
+<p>元数据不仅仅只有<code>&lt;meta&gt;</code> 还有<code>&lt;link&gt;</code> ，<code>&lt;link&gt;</code> 为你的网站增加自定义图标。</p>
+
+<p>将下面这段代码嵌入<code>&lt;head&gt;&lt;/head&gt;</code>中</p>
+
+<pre><code class="language-html">&lt;link rel=&quot;shortcut icon&quot; herf=&quot;favicon&quot; type=&quot;image/x-icon&quot;
+</code></pre>
+
+<h4 id="在html中应用css和javascript">在HTML中应用CSS和Javascript</h4>
+
+<ul>
+<li>样式表的引入用<code>&lt;link&gt;</code>标签，位于HTML文档的头部，它有两个属性，rel=&ldquo;stylesheet&rdquo;，表明这是文档的样式表(CSS)，而href包含了样式表文档的路径：</li>
+</ul>
+
+<pre><code class="language-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;my-css-file.css&quot;&gt;
+</code></pre>
+
+<ul>
+<li>Javascript的引入用<code>&lt;script&gt;</code>标签，最好放在文档的尾部(<code>&lt;/body&gt;的前面</code>)，这样可以确保在加载脚本之前浏览器已经解析了HTML内容(如果脚本加载某个不存在的元素，浏览器会报错)。</li>
+</ul>
+
+<pre><code class="language-html">  &lt;script src=&quot;my-js-file.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<h4 id="为文档设定主语言">为文档设定主语言</h4>
+
+<pre><code class="language-html">&lt;html lang=&quot;en-US&quot;&gt;
+&lt;span lang=&quot;en=US&quot;&gt;test&lt;/span&gt;
+</code></pre>
+
+<h4 id="标题和段落">标题和段落</h4>
+
+<ul>
+<li>标题
+
+<ul>
+<li><code>&lt;h1&gt;,···,&lt;h6&gt;</code> 标题从大到小</li>
+</ul></li>
+<li>段落
+
+<ul>
+<li><code>&lt;p&gt;</code></li>
+</ul></li>
+</ul>
+
+<h4 id="超链接">超链接</h4>
+
+<p>通过将文本转换为<code>&lt;a&gt;</code> 元素内的链接地址来创建基本链接，给<code>&lt;a&gt;</code>标签一个<code>href</code> 属性，就可以建立一个超链接并指向你希望链接的网址。</p>
+
+<pre><code class="language-html">&lt;p&gt;I'm creating a link to
+&lt;a href=&quot;https://www.mozilla.org/en-US/&quot;&gt;the Mozilla homepage&lt;/a&gt;.
+&lt;/p&gt;
+</code></pre>
+
     </section>
 
     <hr>

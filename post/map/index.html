@@ -87,7 +87,7 @@
 
 <p>只要这个键值对存在于该哈希表中就一定会被查找到</p>
 
-<p><img src="https://hapi666.github.io/Users/hapi666/Pictures/WX20181201-145750@2x.png" alt="" /></p>
+<p><img src="https://github.com/hapi666/hapi666.github.io/blob/master/image/1.png" alt="" /></p>
 
 <h4 id="关于-go-map-的几个问题">关于 GO Map 的几个问题</h4>
 
@@ -101,11 +101,11 @@
 
 <p>另外，如果键的类型是接口类型的，那么键的实际类型也不能是上述三种类型，否则会引发 panic 恐慌。举个例子：</p>
 
-<pre><code class="language-go">var badMap2 = map[interface{}]int{
-	&quot;1&quot;:   1,
-	[]int{2}: 2, // 这里会引发 panic。
-	3:    3,
-}
+<pre><code class="language-go">  var badMap2 = map[interface{}]int{
+  	&quot;1&quot;:   1,
+  	[]int{2}: 2, // 这里会引发 panic。
+  	3:    3,
+  }
 </code></pre>
 
 <p>由于 badMap2 的键类型是 interface 类型，在编译期间不会报错。但是它的键里面却还是有切片类型 []int{2} 所以在运行时系统会抛出一个 panic 。</p>
@@ -126,7 +126,7 @@
 
 <p>那你就需要了解一下键值存储的结构了，看下图你就明白了</p>
 
-<p><img src="https://hapi666.github.io/Users/hapi666/WX20181201-145750@2x.png" alt="" /></p>
+<p><img src="https://github.com/hapi666/hapi666.github.io/blob/master/image/2.png" alt="" /></p>
 
 <ul>
 <li><em>NO.3</em> <strong>应该优先考虑哪些类型作为字典类型？</strong></li>

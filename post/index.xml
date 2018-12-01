@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Wed, 28 Nov 2018 17:56:29 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 01 Dec 2018 12:37:08 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GO Map底层实现</title>
+      <link>https://hapi666.github.io/post/map/</link>
+      <pubDate>Sat, 01 Dec 2018 12:37:08 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/map/</guid>
+      <description>键值对与哈希表 键值对（key-value pair）
+GO语言的字典类型其实是一个哈希表（hash table）的特定实现，在这个实现中，键与值最大的不同在于：键的类型是受限制的，而值可以是任意类型的
+对键值对的增删改查是通过哈希表映射操作的
+比如要在哈希表中查找某个与键对应的那个值，那么我们需要先把键值作为参数传给这个哈希表。
+在 GO 语言中每个键值都是由它的哈希值代表的。也就是说字典 map 不会存储任何键的值，但会独立存储它们的哈希值。
+1.哈希表会先用哈希函数把键值转换为哈希值。
+哈希值通常是一个无符号整数。一个哈希表会持有一定数量的桶（bucket），也可称之为哈希桶，这些哈希桶会均匀地存储其所属哈希表收纳的那些键值对。
+2.得到的无符号整数一拆为二，分别称为为高几位和低几位
+3.用低几位去定位到一个哈希桶，然后用高几位去定位到具体的键 key
+4.随后哈希表就会把相应的元素值作为结果返回
+只要这个键值对存在于该哈希表中就一定会被查找到
+关于 GO Map 的几个问题  NO.1 字典的键类型不能是哪些类型？  答案是不可以是函数类型、字典类型和切片类型。
+GO Map 的键类型的值必须是可以支持判等操作的。由于函数类型、字典类型和切片类型并不支持判等操作，所以字典的键类型不能是这些类型。
+另外，如果键的类型是接口类型的，那么键的实际类型也不能是上述三种类型，否则会引发 panic 恐慌。举个例子：
+var badMap2 = map[interface{}]int{ &amp;quot;1&amp;quot;: 1, []int{2}: 2, // 这里会引发 panic。 3: 3, }  由于 badMap2 的键类型是 interface 类型，在编译期间不会报错。但是它的键里面却还是有切片类型 []int{2} 所以在运行时系统会抛出一个 panic 。
+ NO.2 为什么键类型的值必须支持判等操作呢？  前面说定位到具体的哈希桶之后通过高几位再定位到键，那么是如何定位到键的呢？
+首先，每个哈希桶都会把自己包含的所有键的哈希值存起来。Go 语言会用被查找键的哈希值与这些哈希值逐个对比，看看是否有相等的。如果一个相等的都没有，那么就说明这个桶中没有要查找的键值，这时 Go 语言就会立刻返回结果了。
+如果有相等的，那就再用键值本身去对比一次。为什么还要对比？原因是：不同值的哈希值可能是相同的。这个术语叫：哈希碰撞。
+反过来，哈希值一样，键也不一定一样。所以如果这个键类型的值不能判等，那么就无法定位这个键的具体位置了。</description>
+    </item>
     
     <item>
       <title>Slice底层</title>

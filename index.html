@@ -56,6 +56,32 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/router/">Go Router</a></h3>
+        <p class="post-time"><time datetime="2018-12-21T18:56:53&#43;08:00">December 21, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>Go router 源码分析 先看一下最简单的 web server 服务8：
+http.HandleFunc(&quot;/&quot;,func(w http.ResponseWriter,r *http.Request){ w.write([]byte(&quot;hello world!&quot;)) }) http.ListenAndServe(&quot;:8080&quot;,nil)  先观察一下这个，这段代码其实就是一个在本地的8080端口的http服务，当访问：127.0.0.1:8080的时候，页面就会输出 hello world！
+不难发现，其实只要知道了 http.HandleFunc() 、http.ListenAndServe() 这俩个函数干了什么就知道这个服务是怎么跑起来的了。
+那么先查看 HandleFunc() 源码8 hhh
+我们就跳到源码里面的 HandleFunc() 里面
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)){ DefaultServeMux.HandleFunc(pattern, handler) }  诶，这里好像继续调用 DefaultServeMux 的 HandleFunc 的方法了昂
+那这个 DefaultServeMux 是什么呢？
+type ServeMux struct{ mu sync.RWMutex m map[string]muxEntry hosts bool } var DefaultServeMux = &amp;defaultServeMux var defaultServeMux ServeMux  找到了定义的部分，发现其实本质就是 ServeMux 结构体.
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) { if handler == nil { panic(&quot;http: nil handler&quot;) } mux.</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/map/">GO Map底层实现</a></h3>
         <p class="post-time"><time datetime="2018-12-01T12:37:08&#43;08:00">December 1, 2018</time></p>
     </header>
@@ -168,33 +194,17 @@ package main import ( &quot;fmt&quot; ) func main() { var s = [5]string{&quot;1&
     </footer>
 </article>
 	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/defer/">Defer</a></h3>
-        <p class="post-time"><time datetime="2018-09-28T19:23:53&#43;08:00">September 28, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p>Defer使用时的坑 先看几个例子
-1.
-func f() (result int) { defer func() { result++ }() return 0 }  2.
-func f() (r int) { t := 5 defer func() { t = t + 5 }() return t }  3.
-func f() (r int) { defer func(r int) { r = r + 5 }(r) return 1 }  例1的正确答案不是0，例2的正确答案不是10，例3的正确答案不是6……
-Why???
-= =!
-要使用defer时不踩坑，最重要的一点就是要明白，return xxx这一条语句并不是一条原子指令! 那啥是原子指令？？
-所谓原子操作是指不会被 线程调度机制 打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有任何 context switch （切换到另一个线程）。</p>
-    </section>
+	
+<nav role="pagination" class="pagination">
+  
+	<span class="post-list-pagination-item post-list-pagination-item-current">Page 1 of 2</span>
 
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-	
+  <a href="https://hapi666.github.io/page/2/" class="older-posts">
+    &nbsp;Older&nbsp;<i class="fa fa-angle-double-right"></i>
+  </a>
+
+</nav>
+
 	</div>
 </main>
     <footer id="site-footer">

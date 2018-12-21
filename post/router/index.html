@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" prefix="og: http://ogp.me/ns#" xmlns:og="http://ogp.me/ns#"><!--<![endif]-->
+
+    <head>
+                <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="author" content="一只傻哈皮">
+        <meta name="keywords" content="awesome, definitely">
+	
+        <meta property="og:site_name" content="一只傻哈皮">
+        <meta property="og:title" content="一只傻哈皮">
+        <meta property="og:url" content="https://hapi666.github.io/post/router/">
+        <meta property="og:description" content="有梦想的年轻人！">
+    
+        <meta property="og:type" content="article" />
+        <meta property="og:article:author" content="一只傻哈皮" />
+        <meta property="og:article:published_time" content="2018-12-21T18:56:53&#43;08:00" />
+    
+        <meta name="generator" content="Hugo 0.49" />
+        <title>Go Router &middot; 一只傻哈皮 </title>
+        <link rel="canonical" href="https://hapi666.github.io/" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="">
+        <link rel="stylesheet" type='text/css' href="https://hapi666.github.io/css/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700' rel='stylesheet' type='text/css'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <link href="https://hapi666.github.io/css/syntax-highlighting.css" rel="stylesheet" />
+        <link rel="icon" href="http://donw.io/favicon.ico?v=2" />
+        <script src="https://hapi666.github.io/js/prism.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
+
+        
+    </head>
+<body>
+<!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
+
+    <header id="site-header">
+        <div class="container">
+            <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
+            <p class="blog-description">有梦想的年轻人！</p>
+			
+			        
+                    
+			
+			
+        </div>
+    </header>
+<main class="content" role="main">
+	<div class="container">
+		<article class="post">
+	<header class="post-header">
+        <h3 class="p-post-title">Go Router</h3>
+    </header>
+
+    <section class="post-content">
+        
+
+<h1 id="go-router">Go router</h1>
+
+<h4 id="源码分析">源码分析</h4>
+
+<p>先看一下最简单的 web server 服务8：</p>
+
+<pre><code class="language-go">http.HandleFunc(&quot;/&quot;,func(w http.ResponseWriter,r *http.Request){
+    w.write([]byte(&quot;hello world!&quot;))
+})
+http.ListenAndServe(&quot;:8080&quot;,nil)
+</code></pre>
+
+<p>先观察一下这个，这段代码其实就是一个在本地的8080端口的http服务，当访问：127.0.0.1:8080的时候，页面就会输出 hello world！</p>
+
+<p>不难发现，其实只要知道了 http.HandleFunc() 、http.ListenAndServe() 这俩个函数干了什么就知道这个服务是怎么跑起来的了。</p>
+
+<p>那么先查看 HandleFunc() 源码8 hhh</p>
+
+<p>我们就跳到源码里面的 HandleFunc() 里面</p>
+
+<pre><code class="language-go">func HandleFunc(pattern string, handler func(ResponseWriter, *Request)){
+    DefaultServeMux.HandleFunc(pattern, handler)
+}
+</code></pre>
+
+<p>诶，这里好像继续调用 DefaultServeMux 的 HandleFunc 的方法了昂</p>
+
+<p>那这个 DefaultServeMux 是什么呢？</p>
+
+<pre><code class="language-go">type ServeMux struct{
+    mu    sync.RWMutex
+    m     map[string]muxEntry
+    hosts bool
+}
+var DefaultServeMux = &amp;defaultServeMux
+var defaultServeMux ServeMux
+</code></pre>
+
+<p>找到了定义的部分，发现其实本质就是 ServeMux 结构体.</p>
+
+<pre><code class="language-go">func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	if handler == nil {
+		panic(&quot;http: nil handler&quot;)
+	}
+	mux.Handle(pattern, HandlerFunc(handler))
+}
+</code></pre>
+
+<p>接着，我们再进到 mux.Handle 里面</p>
+
+<pre><code class="language-go">func (mux *ServeMux) Handle(pattern string, handler Handler) {
+	mux.mu.Lock()
+	defer mux.mu.Unlock()
+
+	if pattern == &quot;&quot; {
+		panic(&quot;http: invalid pattern&quot;)
+	}
+	if handler == nil {
+		panic(&quot;http: nil handler&quot;)
+	}
+	if _, exist := mux.m[pattern]; exist {
+		panic(&quot;http: multiple registrations for &quot; + pattern)
+	}
+
+	if mux.m == nil {
+		mux.m = make(map[string]muxEntry)
+	}
+	mux.m[pattern] = muxEntry{h: handler, pattern: pattern}
+
+	if pattern[0] != '/' {
+		mux.hosts = true
+	}
+}
+</code></pre>
+
+<p>这仔细一看，这就是路由注册的实现啊！好像没有陌生的函数/方法可以跳了8</p>
+
+<p>所以咱们可以断定，这 http.HandleFunc() 其实就是什么？就是注册路由的部分。</p>
+
+<p>那，处理请求的部分在哪儿啊？诶，别忘了，我们还有 http.ListenAndServe() 没看呢</p>
+
+<p>上源码！</p>
+
+<pre><code class="language-go">func ListenAndServe(addr string, handler Handler) error {
+	server := &amp;Server{Addr: addr, Handler: handler}
+	return server.ListenAndServe()
+}
+</code></pre>
+
+<p>首先实例化了一个 Serve 结构体吧，这个不难看懂，然后 server.ListenAndServe() 不懂了， 跳！</p>
+
+<pre><code class="language-go">func (srv *Server) ListenAndServe() error {
+	if srv.shuttingDown() {
+		return ErrServerClosed
+	}
+	addr := srv.Addr
+	if addr == &quot;&quot; {
+		addr = &quot;:http&quot;
+	}
+	ln, err := net.Listen(&quot;tcp&quot;, addr)
+	if err != nil {
+		return err
+	}
+	return srv.Serve(tcpKeepAliveListener{ln.(*net.TCPListener)})
+}
+</code></pre>
+
+<p>还是不太懂吧，那跳到 srv.Serve 里面看看</p>
+
+<pre><code class="language-go">// Serve accepts incoming connections on the Listener l, creating a
+// new service goroutine for each. The service goroutines read requests and
+// then call srv.Handler to reply to them.
+func (srv *Server) Serve(l net.Listener) error {
+	if fn := testHookServerServe; fn != nil {
+		fn(srv, l) // call hook with unwrapped listener
+	}
+
+	l = &amp;onceCloseListener{Listener: l}
+	defer l.Close()
+
+	if err := srv.setupHTTP2_Serve(); err != nil {
+		return err
+	}
+
+	if !srv.trackListener(&amp;l, true) {
+		return ErrServerClosed
+	}
+	defer srv.trackListener(&amp;l, false)
+
+	var tempDelay time.Duration     // how long to sleep on accept failure
+	baseCtx := context.Background() // base is always background, per Issue 16220
+	ctx := context.WithValue(baseCtx, ServerContextKey, srv)
+	for {
+		rw, e := l.Accept()
+		if e != nil {
+			select {
+			case &lt;-srv.getDoneChan():
+				return ErrServerClosed
+			default:
+			}
+			if ne, ok := e.(net.Error); ok &amp;&amp; ne.Temporary() {
+				if tempDelay == 0 {
+					tempDelay = 5 * time.Millisecond
+				} else {
+					tempDelay *= 2
+				}
+				if max := 1 * time.Second; tempDelay &gt; max {
+					tempDelay = max
+				}
+				srv.logf(&quot;http: Accept error: %v; retrying in %v&quot;, e, tempDelay)
+				time.Sleep(tempDelay)
+				continue
+			}
+			return e
+		}
+		tempDelay = 0
+		c := srv.newConn(rw)
+		c.setState(c.rwc, StateNew) // before Serve can return
+		go c.serve(ctx)
+	}
+}
+</code></pre>
+
+<p>你看注释，说Serve为每个请求开启了一个 goroutine 吧，就是 go.c.serve(ctx) 这个部分吧，那咱们就看看每个 gorountine 都干了啥呗，跳！</p>
+
+<pre><code class="language-go">func (c *conn) serve(ctx context.Context) {
+	c.remoteAddr = c.rwc.RemoteAddr().String()
+	ctx = context.WithValue(ctx, LocalAddrContextKey, c.rwc.LocalAddr())
+	defer func() {
+		if err := recover(); err != nil &amp;&amp; err != ErrAbortHandler {
+			const size = 64 &lt;&lt; 10
+			buf := make([]byte, size)
+			buf = buf[:runtime.Stack(buf, false)]
+			c.server.logf(&quot;http: panic serving %v: %v\n%s&quot;, c.remoteAddr, err, buf)
+		}
+		if !c.hijacked() {
+			c.close()
+			c.setState(c.rwc, StateClosed)
+		}
+	}()
+
+	if tlsConn, ok := c.rwc.(*tls.Conn); ok {
+		if d := c.server.ReadTimeout; d != 0 {
+			c.rwc.SetReadDeadline(time.Now().Add(d))
+		}
+		if d := c.server.WriteTimeout; d != 0 {
+			c.rwc.SetWriteDeadline(time.Now().Add(d))
+		}
+		if err := tlsConn.Handshake(); err != nil {
+			c.server.logf(&quot;http: TLS handshake error from %s: %v&quot;, c.rwc.RemoteAddr(), err)
+			return
+		}
+		c.tlsState = new(tls.ConnectionState)
+		*c.tlsState = tlsConn.ConnectionState()
+		if proto := c.tlsState.NegotiatedProtocol; validNPN(proto) {
+			if fn := c.server.TLSNextProto[proto]; fn != nil {
+				h := initNPNRequest{tlsConn, serverHandler{c.server}}
+				fn(c.server, tlsConn, h)
+			}
+			return
+		}
+	}
+
+	// HTTP/1.x from here on.
+
+	ctx, cancelCtx := context.WithCancel(ctx)
+	c.cancelCtx = cancelCtx
+	defer cancelCtx()
+
+	c.r = &amp;connReader{conn: c}
+	c.bufr = newBufioReader(c.r)
+	c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, 4&lt;&lt;10)
+
+	for {
+		w, err := c.readRequest(ctx)
+		if c.r.remain != c.server.initialReadLimitSize() {
+			// If we read any bytes off the wire, we're active.
+			c.setState(c.rwc, StateActive)
+		}
+		if err != nil {
+			const errorHeaders = &quot;\r\nContent-Type: text/plain; charset=utf-8\r\nConnection: close\r\n\r\n&quot;
+
+			if err == errTooLarge {
+				// Their HTTP client may or may not be
+				// able to read this if we're
+				// responding to them and hanging up
+				// while they're still writing their
+				// request. Undefined behavior.
+				const publicErr = &quot;431 Request Header Fields Too Large&quot;
+				fmt.Fprintf(c.rwc, &quot;HTTP/1.1 &quot;+publicErr+errorHeaders+publicErr)
+				c.closeWriteAndWait()
+				return
+			}
+			if isCommonNetReadError(err) {
+				return // don't reply
+			}
+
+			publicErr := &quot;400 Bad Request&quot;
+			if v, ok := err.(badRequestError); ok {
+				publicErr = publicErr + &quot;: &quot; + string(v)
+			}
+
+			fmt.Fprintf(c.rwc, &quot;HTTP/1.1 &quot;+publicErr+errorHeaders+publicErr)
+			return
+		}
+
+		// Expect 100 Continue support
+		req := w.req
+		if req.expectsContinue() {
+			if req.ProtoAtLeast(1, 1) &amp;&amp; req.ContentLength != 0 {
+				// Wrap the Body reader with one that replies on the connection
+				req.Body = &amp;expectContinueReader{readCloser: req.Body, resp: w}
+			}
+		} else if req.Header.get(&quot;Expect&quot;) != &quot;&quot; {
+			w.sendExpectationFailed()
+			return
+		}
+
+		c.curReq.Store(w)
+
+		if requestBodyRemains(req.Body) {
+			registerOnHitEOF(req.Body, w.conn.r.startBackgroundRead)
+		} else {
+			w.conn.r.startBackgroundRead()
+		}
+
+		// HTTP cannot have multiple simultaneous active requests.[*]
+		// Until the server replies to this request, it can't read another,
+		// so we might as well run the handler in this goroutine.
+		// [*] Not strictly true: HTTP pipelining. We could let them all process
+		// in parallel even if their responses need to be serialized.
+		// But we're not going to implement HTTP pipelining because it
+		// was never deployed in the wild and the answer is HTTP/2.
+		serverHandler{c.server}.ServeHTTP(w, w.req)
+		w.cancelCtx()
+		if c.hijacked() {
+			return
+		}
+		w.finishRequest()
+		if !w.shouldReuseConnection() {
+			if w.requestBodyLimitHit || w.closedRequestBodyEarly() {
+				c.closeWriteAndWait()
+			}
+			return
+		}
+		c.setState(c.rwc, StateIdle)
+		c.curReq.Store((*response)(nil))
+
+		if !w.conn.server.doKeepAlives() {
+			// We're in shutdown mode. We might've replied
+			// to the user without &quot;Connection: close&quot; and
+			// they might think they can send another
+			// request, but such is life with HTTP/1.1.
+			return
+		}
+
+		if d := c.server.idleTimeout(); d != 0 {
+			c.rwc.SetReadDeadline(time.Now().Add(d))
+			if _, err := c.bufr.Peek(4); err != nil {
+				return
+			}
+		}
+		c.rwc.SetReadDeadline(time.Time{})
+	}
+}
+</code></pre>
+
+<p>这真是太长了hh, 但是咱们只关注最重要的部分就可以了（在里面找ServeHTTP），比如，这个其实就是调用了什么？</p>
+
+<p>就是调用了每个链接(conn)服务(serve)的 ServeHTTP() 函数！</p>
+
+<h4 id="总结一下">总结一下</h4>
+
+<p>其实 HandleFunc() 就是什么呢，其实它就是注册路由的部分，不是什么处理请求的部分，处理请求的部分是什么？是 ServeHTTP() 啊，那是哪个调用到了 ServeHTTP() 呢？是 ListenAndServe() 啊！那，所以要先注册路由，因为在执行 ServeHTTP() 的时候呢，我得看路由表提供服务啊！！</p>
+
+<p>那啥叫看路由表提供服务啊？那俺们先说说啥是路由表吧，好8 ？路由表是 ServeMux 结构体里的一个字段，啥字段？ 就是这个 map[string]muxEntry 。它存储的是什么呢？是 pattern 和 该 pattern 对应的处理器(就是方法) 。</p>
+
+<h4 id="动手撸一个自己的路由">动手撸一个自己的路由</h4>
+
+<pre><code class="language-go">package route
+
+import (
+    &quot;net/http&quot;
+    &quot;strings&quot;
+)
+
+//返回一个Router实例
+func NewRouter() *Router {
+    return new(Router)
+}
+
+//路由结构体，包含一个记录方法、路径的map
+type Router struct {
+    Route map[string]map[string]http.HandlerFunc
+}
+
+//实现Handler接口，匹配方法以及路径
+func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+    if h, ok := r.Route[req.Method][req.URL.String()]; ok {
+        h(w, req)
+    }
+}
+
+//根据方法、路径将方法注册到路由
+func (r *Router) HandleFunc(method, path string, f http.HandlerFunc) {
+    method = strings.ToUpper(method)
+    if r.Route == nil {
+        r.Route = make(map[string]map[string]http.HandlerFunc)
+    }
+    if r.Route[method] == nil {
+        r.Route[method] = make(map[string]http.HandlerFunc)
+    }
+    r.Route[method][path] = f
+}
+</code></pre>
+
+<p>使用：</p>
+
+<pre><code class="language-go">r := route.NewRouter()
+r.HandleFunc(&quot;GET&quot;, &quot;/&quot;, func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, &quot;Hello Get!&quot;)
+})
+r.HandleFunc(&quot;POST&quot;, &quot;/&quot;, func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, &quot;hello POST!&quot;)
+})
+http.ListenAndServe(&quot;:8080&quot;, r)
+</code></pre>
+
+    </section>
+
+    <hr>
+
+    <footer class="post-footer">
+        <section class="f-1">            
+            
+            <p class="f-post-time"><time datetime="2018-12-21T18:56:53&#43;08:00">December 21, 2018</time></p>
+        </section>
+                        
+        <section class="f-2">
+            <section class="share">
+                <span>Share:
+                <a class="icon-twitter" href="http://twitter.com/share?text=Go%20Router&url=https%3a%2f%2fhapi666.github.io%2fpost%2frouter%2f"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2frouter%2f"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2frouter%2f"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                </span>
+            </section>
+        </section>
+    </footer>
+    
+<div id="gh-comments">
+    <br/><br/>
+    <h6>COMMENTS</h6>
+    <div id="gh-comments-list"></div>
+    <a href="javascript:void(0)" id="gh-load-comments" class="btn" style="display:none">Load more comments</a>
+</div>
+
+<script type="text/javascript" src="https://hapi666.github.io/js/github-comments.js"></script>
+<script type="text/javascript">
+    DoGithubComments( null );
+</script>
+
+</article>
+	</div>
+</main>
+    <footer id="site-footer">
+        <div class="container">
+            <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+            <section>&copy; <a href="https://hapi666.github.io/">一只傻哈皮</a> 2016 | All rights reserved</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://hapi666.github.io/js/fittext.js"></script>
+    <script type="text/javascript">
+      $(".heading").fitText();
+    </script>
+
+    
+
+
+</body>
+</html>

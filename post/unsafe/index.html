@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" prefix="og: http://ogp.me/ns#" xmlns:og="http://ogp.me/ns#"><!--<![endif]-->
+
+    <head>
+                <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="author" content="一只傻哈皮">
+        <meta name="keywords" content="awesome, definitely">
+	
+        <meta property="og:site_name" content="一只傻哈皮">
+        <meta property="og:title" content="一只傻哈皮">
+        <meta property="og:url" content="https://hapi666.github.io/post/unsafe/">
+        <meta property="og:description" content="有梦想的年轻人！">
+    
+        <meta property="og:type" content="article" />
+        <meta property="og:article:author" content="一只傻哈皮" />
+        <meta property="og:article:published_time" content="2018-12-24T18:48:31&#43;08:00" />
+    
+        <meta name="generator" content="Hugo 0.49" />
+        <title>unsafe黑魔法 &middot; 一只傻哈皮 </title>
+        <link rel="canonical" href="https://hapi666.github.io/" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="">
+        <link rel="stylesheet" type='text/css' href="https://hapi666.github.io/css/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700' rel='stylesheet' type='text/css'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <link href="https://hapi666.github.io/css/syntax-highlighting.css" rel="stylesheet" />
+        <link rel="icon" href="http://donw.io/favicon.ico?v=2" />
+        <script src="https://hapi666.github.io/js/prism.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
+
+        
+    </head>
+<body>
+<!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
+
+    <header id="site-header">
+        <div class="container">
+            <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
+            <p class="blog-description">有梦想的年轻人！</p>
+			
+			        
+                    
+			
+			
+        </div>
+    </header>
+<main class="content" role="main">
+	<div class="container">
+		<article class="post">
+	<header class="post-header">
+        <h3 class="p-post-title">unsafe黑魔法</h3>
+    </header>
+
+    <section class="post-content">
+        
+
+<h4 id="前言">前言</h4>
+
+<p>大家应该都知道 Go 语言是不支持<code>指针的运算和转换</code>的。这是为什么呢？</p>
+
+<p>由于 Go 语言是一门静态语言(也叫强类型语言)，所以所有的变量都必须为标量类型。不同类型之间不能够进行赋值、计算等跨类型的操作，比方说一个字符串不能赋值给一个 int 类型的变量，一个字符串也不能跟一个整数相加、相减等操作，一个字符串也不能强制转换为整数类型。由于指针也有其对应的类型，所以也在 Compile 的静态类型检查的范围内。同时，静态类型又叫强类型，意思就是这个变量一旦定义其类型，便不能再更改它。</p>
+
+<p>像下面这种，就是不对的</p>
+
+<pre><code class="language-go">number := 5
+numberPointer := &amp;number
+floatNumber := (*float32)(numberPointer)
+fmt.Println(floatNumber)
+</code></pre>
+
+<p>编译器会报错：</p>
+
+<pre><code class="language-go"># command-line-arguments
+...: cannot convert numberPointer (type *int) to type *float32
+</code></pre>
+
+<p>直接翻译就知道这是为什么会报错吧</p>
+
+<h4 id="unsafe-包">unsafe 包</h4>
+
+<p>用它之前，我们要知道：</p>
+
+<ul>
+<li>它是围绕 Go 程序内存安全及类型的操作</li>
+<li>用它写出来的程序很可能是不可移植的</li>
+<li>不受 Go 1兼容性指南保护</li>
+</ul>
+
+<h4 id="unsafe-pointer">unsafe.Pointer</h4>
+
+<pre><code class="language-go">type ArbitraryType int
+type Pointer *ArbitraryType
+</code></pre>
+
+<p>ArbitraryType 仅用于来表示任意 Go 表达式类型，就是用来表示<code>任意</code>的含义，他并不属于 unsafe 包的一部分。</p>
+
+<p>所以 Pointer 代表人意类型的指针，类似于 C 语言里面的 void*。</p>
+
+<p><code>Pointer</code> 有四个核心操作：</p>
+
+<ul>
+<li>任何类型的指针值都可以转换为 Pointer</li>
+<li>Pointer 可以转换为任何类型的指针值</li>
+<li>uintptr 可以转换为 Pointer</li>
+<li>Pointer 可以转换为 uintptr</li>
+</ul>
+
+<pre><code class="language-go">number := 5
+numberPointer := &amp;number
+floatNumber := (*float32)(unsafe.Pointer(numberPointer))
+fmt.Println(floatNumber)
+</code></pre>
+
+<p>这样写就不报错了。拿 unsafe.Pointer 作为中间的桥梁，巧妙地将 int 类型的 number 转换为 float32 类型的 floatNumber.</p>
+
+<h4 id="offsetof-偏移量">Offsetof(偏移量)</h4>
+
+<pre><code class="language-go">type N struct{
+    i string
+    j int
+}
+
+func main(){
+    n := N{
+        i: &quot;example&quot;,
+        j: 1
+    }
+    niPointer := unsafe.Pointer(&amp;n)
+    *niPointer = &quot;鱼&quot;
+    njPointer := (*int)(unsafe.Pointer(uintptr(nPointer) + unsafe.Offsetof(n.j)))
+    *njPointer = 2
+    fmt.Printf(&quot;n.i: %s, n.j: %d&quot;, n.i, n.j)
+}
+</code></pre>
+
+<p>输出结果：</p>
+
+<pre><code class="language-go">n.i: 鱼, n.j: 2
+</code></pre>
+
+<p>分析这段代码做了什么事之前，我们需要知道关于结构体的一些概念：</p>
+
+<ul>
+<li>结构体成员变量在内存存储上是一块连续的内存</li>
+<li>结构体的初始地址就是第一个成员变量的内存地址</li>
+<li>基于结构体的成员地址去计算偏移量，就能够计算出其他成员变量的内存地址</li>
+</ul>
+
+<p><strong>关于 unitptr</strong> :</p>
+
+<ul>
+<li>是 Go 的内置类型。返回无符号整数，可存储一个完整的地址。</li>
+</ul>
+
+<pre><code class="language-go">  type uintptr uinptr
+</code></pre>
+
+<p><strong>关于 offsetof</strong> ：</p>
+
+<pre><code class="language-go">func Offsetof(x ArbitraryType) uintptr
+</code></pre>
+
+<ul>
+<li>计算偏移量大小，传入任意类型参数，返回返回x表示的字段结构中的偏移量，该字符必须是 structValue.field 形式，换句话说，它返回<code>struct 的开头</code>和<code>字段的开头</code>之间的字节数。</li>
+</ul>
+
+<p><strong>这个示例就是先将整个结构体的 unsafe.Pointer 转换为 unsafe.uintptr 然后将得到的 unsafe.uintptr 加上某个字段的偏移量 转换成 该字段其他类型的指针值</strong></p>
+
+<p>从而巧妙地将结构体某个字段 转换为 其他类型的指针值</p>
+
+<p>可以知道 <code>uintptr</code> 类型是可以做指针运算的</p>
+
+<h5 id="注意">注意</h5>
+
+<p><code>uintptr</code> 类型是不能存储在临时变量中的。因为从 GC 角度来看，<code>uintptr</code> 类型的临时变量只是一个无符号整数，并不知道它是一个指针地址。因此当满足一定条件后，这个临时变量很可能会被垃圾回收掉，那么接下来的内存操作岂不成谜？</p>
+
+<h4 id="总结">总结</h4>
+
+<p>1⃣️ <code>unsafe.Pointer</code> 可以让你的变量在不同的指针类型之间转来转去，就是可以表示成任何可循知道指针类型。</p>
+
+<p>2⃣️ <code>uintptr</code> 常用于与 <code>unsafe.Pointer</code> 互相配合做指针运算。</p>
+
+    </section>
+
+    <hr>
+
+    <footer class="post-footer">
+        <section class="f-1">            
+            
+            <p class="f-post-time"><time datetime="2018-12-24T18:48:31&#43;08:00">December 24, 2018</time></p>
+        </section>
+                        
+        <section class="f-2">
+            <section class="share">
+                <span>Share:
+                <a class="icon-twitter" href="http://twitter.com/share?text=unsafe%e9%bb%91%e9%ad%94%e6%b3%95&url=https%3a%2f%2fhapi666.github.io%2fpost%2funsafe%2f"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2funsafe%2f"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2funsafe%2f"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                </span>
+            </section>
+        </section>
+    </footer>
+    
+<div id="gh-comments">
+    <br/><br/>
+    <h6>COMMENTS</h6>
+    <div id="gh-comments-list"></div>
+    <a href="javascript:void(0)" id="gh-load-comments" class="btn" style="display:none">Load more comments</a>
+</div>
+
+<script type="text/javascript" src="https://hapi666.github.io/js/github-comments.js"></script>
+<script type="text/javascript">
+    DoGithubComments( null );
+</script>
+
+</article>
+	</div>
+</main>
+    <footer id="site-footer">
+        <div class="container">
+            <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+            <section>&copy; <a href="https://hapi666.github.io/">一只傻哈皮</a> 2016 | All rights reserved</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://hapi666.github.io/js/fittext.js"></script>
+    <script type="text/javascript">
+      $(".heading").fitText();
+    </script>
+
+    
+
+
+</body>
+</html>

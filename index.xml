@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Fri, 21 Dec 2018 18:56:53 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 24 Dec 2018 18:48:31 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>unsafe黑魔法</title>
+      <link>https://hapi666.github.io/post/unsafe/</link>
+      <pubDate>Mon, 24 Dec 2018 18:48:31 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/unsafe/</guid>
+      <description>前言 大家应该都知道 Go 语言是不支持指针的运算和转换的。这是为什么呢？
+由于 Go 语言是一门静态语言(也叫强类型语言)，所以所有的变量都必须为标量类型。不同类型之间不能够进行赋值、计算等跨类型的操作，比方说一个字符串不能赋值给一个 int 类型的变量，一个字符串也不能跟一个整数相加、相减等操作，一个字符串也不能强制转换为整数类型。由于指针也有其对应的类型，所以也在 Compile 的静态类型检查的范围内。同时，静态类型又叫强类型，意思就是这个变量一旦定义其类型，便不能再更改它。
+像下面这种，就是不对的
+number := 5 numberPointer := &amp;amp;number floatNumber := (*float32)(numberPointer) fmt.Println(floatNumber)  编译器会报错：
+# command-line-arguments ...: cannot convert numberPointer (type *int) to type *float32  直接翻译就知道这是为什么会报错吧
+unsafe 包 用它之前，我们要知道：
+ 它是围绕 Go 程序内存安全及类型的操作 用它写出来的程序很可能是不可移植的 不受 Go 1兼容性指南保护  unsafe.Pointer type ArbitraryType int type Pointer *ArbitraryType  ArbitraryType 仅用于来表示任意 Go 表达式类型，就是用来表示任意的含义，他并不属于 unsafe 包的一部分。
+所以 Pointer 代表人意类型的指针，类似于 C 语言里面的 void*。</description>
+    </item>
     
     <item>
       <title>Go Router</title>

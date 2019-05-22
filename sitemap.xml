@@ -23,11 +23,6 @@
   </url>
   
   <url>
-    <loc>https://hapi666.github.io/post/html/</loc>
-    <lastmod>2018-10-04T22:58:50+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://hapi666.github.io/post/slice/</loc>
     <lastmod>2018-10-01T21:37:55+08:00</lastmod>
   </url>
@@ -35,6 +30,10 @@
   <url>
     <loc>https://hapi666.github.io/post/defer/</loc>
     <lastmod>2018-09-28T19:23:53+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hapi666.github.io/post/mysql/</loc>
   </url>
   
   <url>

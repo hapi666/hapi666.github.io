@@ -119,14 +119,5 @@ Why???
 所谓原子操作是指不会被 线程调度机制 打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有任何 context switch （切换到另一个线程）。</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>https://hapi666.github.io/post/mysql/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hapi666.github.io/post/mysql/</guid>
-      <description> 必知必会 1⃣️ start、restart、stop mysql.server start mysql.server restart mysql.server stop  2⃣️ 修改密码  </description>
-    </item>
-    
   </channel>
 </rss>

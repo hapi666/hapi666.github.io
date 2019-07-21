@@ -18,24 +18,13 @@
       <pubDate>Mon, 22 Jul 2019 01:06:17 +0800</pubDate>
       
       <guid>https://hapi666.github.io/post/shake_hands/</guid>
-      <description>## seq, ack, fin
-#### seq: 确认序列
-#### ack: 确认包
-#### fin: 断开连接包
-## 三次握手
-客户端先发送 SYN=x 请求建立连接
+      <description>seq, ack, fin seq: 确认序列 ack: 确认包 fin: 断开连接包 三次握手 客户端先发送 SYN=x 请求建立连接
 服务器返回 ACK=x+1，SYN=Y
 客户端再回复 ACK=Y+1 建立连接成功
-#### 为什么是三次握手？
-假设 client 端向 server 端发送了一个请求报文（没有丢失的报文），但是不幸在网络节点中被滞留了，以至于延误了，直到 client 端释放了该连接之后才抵达 server 端，
+为什么是三次握手？ 假设 client 端向 server 端发送了一个请求报文（没有丢失的报文），但是不幸在网络节点中被滞留了，以至于延误了，直到 client 端释放了该连接之后才抵达 server 端，
 如果在没有第三次握手的前提下，那么 server 端会直接建立连接成功，但是 client 端这个连接对于它来讲已经失效了，所以它不会用这个连接去跟 server 进行沟通了，也就是说它不会再发任何数据给 server 端了，那么这样导致的就是呢一次连接的浪费
 如果有第三次握手呢，server 端对 client 传过来的这个报文请求会向其发送 ACK 和 SYN，等待 client 回复 ACK 确认消息，该连接才会被认为是有效的，这样一来，就不会出现浪费资源的情况。
-##### 从而证明三次握手是必要的！
-##### 第二次握手证明 client=&amp;gt;server 是没问题的
-##### 第三次握手证明 server=&amp;gt;client 是没问题的
-##### TCP 是全双工通信的，由于网络通信是不可靠的，所以通过三次握手可以「最低限度」的确认全双工通信通道
-## 四次挥手
-想要断开连接的一方 向 对方 发送一个 FIN 数据包，对方收到之后回复一个 ACK ，在间隔一段时间之后，再发送 FIN, 然后 主动断开的一方 回复 对方 一个 ACK</description>
+从而证明三次握手是必要的！ 第二次握手证明 client=&amp;gt;server 是没问题的 第三次握手证明 server=&amp;gt;client 是没问题的 TCP 是全双工通信的，由于网络通信是不可靠的，所以通过三次握手可以「最低限度」的确认全双工通信通道 四次挥手 想要断开连接的一方 向 对方 发送一个 FIN 数据包，对方收到之后回复一个 ACK ，在间隔一段时间之后，再发送 FIN, 然后 主动断开的一方 回复 对方 一个 ACK</description>
     </item>
     
     <item>

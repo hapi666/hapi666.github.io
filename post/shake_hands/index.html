@@ -61,15 +61,17 @@
     </header>
 
     <section class="post-content">
-        <p>## seq, ack, fin</p>
+        
 
-<p>#### <code>seq</code>: 确认序列</p>
+<h2 id="seq-ack-fin">seq, ack, fin</h2>
 
-<p>#### <code>ack</code>: 确认包</p>
+<h4 id="seq-确认序列"><code>seq</code>: 确认序列</h4>
 
-<p>#### <code>fin</code>: 断开连接包</p>
+<h4 id="ack-确认包"><code>ack</code>: 确认包</h4>
 
-<p>## 三次握手</p>
+<h4 id="fin-断开连接包"><code>fin</code>: 断开连接包</h4>
+
+<h2 id="三次握手">三次握手</h2>
 
 <p>客户端先发送 SYN=x 请求建立连接</p>
 
@@ -79,7 +81,7 @@
 
 <p><img src="https://www.itcodemonkey.com/data/upload/portal/20180730/1532954484528645.jpg" alt="" /></p>
 
-<p>#### 为什么是三次握手？</p>
+<h4 id="为什么是三次握手">为什么是三次握手？</h4>
 
 <p>假设 <code>client</code> 端向 <code>server</code> 端发送了一个请求报文（没有丢失的报文），但是不幸在网络节点中被滞留了，以至于延误了，直到 <code>client</code> 端释放了该连接之后才抵达 <code>server</code> 端，</p>
 
@@ -87,31 +89,31 @@
 
 <p>如果有第三次握手呢，<code>server</code> 端对 <code>client</code> 传过来的这个报文请求会向其发送 <strong><em>ACK</em></strong> 和 <strong><em>SYN</em></strong>，等待 <code>client</code> 回复 <strong><em>ACK</em></strong> 确认消息，该连接才会被认为是有效的，这样一来，就不会出现浪费资源的情况。</p>
 
-<p>##### 从而证明三次握手是必要的！</p>
+<h5 id="从而证明三次握手是必要的">从而证明三次握手是必要的！</h5>
 
-<p>##### 第二次握手证明 <code>client</code>=&gt;<code>server</code> 是没问题的</p>
+<h5 id="第二次握手证明-client-server-是没问题的">第二次握手证明 <code>client</code>=&gt;<code>server</code> 是没问题的</h5>
 
-<p>##### 第三次握手证明 <code>server</code>=&gt;<code>client</code> 是没问题的</p>
+<h5 id="第三次握手证明-server-client-是没问题的">第三次握手证明 <code>server</code>=&gt;<code>client</code> 是没问题的</h5>
 
-<p>##### <strong><em>TCP</em></strong> 是全双工通信的，由于网络通信是不可靠的，所以通过三次握手可以「最低限度」的确认全双工通信通道</p>
+<h5 id="tcp-是全双工通信的-由于网络通信是不可靠的-所以通过三次握手可以-最低限度-的确认全双工通信通道"><strong><em>TCP</em></strong> 是全双工通信的，由于网络通信是不可靠的，所以通过三次握手可以「最低限度」的确认全双工通信通道</h5>
 
-<p>## 四次挥手</p>
+<h2 id="四次挥手">四次挥手</h2>
 
 <p><code>想要断开连接的一方</code> 向 <code>对方</code> 发送一个 <strong><em>FIN</em></strong> 数据包，对方收到之后回复一个 <strong><em>ACK</em></strong> ，在间隔一段时间之后，再发送 <strong><em>FIN</em></strong>, 然后 <code>主动断开的一方</code> 回复 <code>对方</code> 一个 <strong><em>ACK</em></strong></p>
 
 <p><img src="https://www.itcodemonkey.com/data/upload/portal/20180730/1532954484678945.jpg" alt="" /></p>
 
-<p>#### 为什么是四次挥手</p>
+<h5 id="为什么是四次挥手">为什么是四次挥手</h5>
 
 <p>原因是 <strong><em>TCP</em></strong> 支持「半关闭」连接，也就是说支持双方独立关闭通道所有说需要两个独立的关闭写通道的请求，每次关闭写通道的请求都会向对方发送一个 <strong><em>FIN</em></strong>，对方返回给一个 <strong><em>ACK</em></strong> 确认。这样，就会产生两次 <strong><em>FIN</em></strong> 和 <strong><em>ACK</em></strong>，也就是四次挥手了。</p>
 
 <p>在发出 <strong><em>FIN</em></strong> 之后仅仅表示它不再往连接通道里面写数据了，但并不意味着他不能从中读数据，在接收到 <strong><em>FIN</em></strong> 数据包时，立即回复 <strong><em>ACK</em></strong>，然后将剩余数据发送给它，接着再发送 <strong><em>FIN</em></strong> 数据包，此时客户端响应 <strong><em>ACK</em></strong>，连接完全断开。如果客户端没有回复 <strong><em>ACK</em></strong>，隔一段时间之后连接也会断开，通常是 <code>2MLS</code>。</p>
 
-<p>## 半双工与全双工</p>
+<h2 id="半双工与全双工">半双工与全双工</h2>
 
 <p>由此这里介绍一下 <code>半双工</code> 和 <code>全双工</code> 的概念</p>
 
-<p>#### 半双工</p>
+<h4 id="半双工">半双工</h4>
 
 <p>允许两个设备之间双向传输，但是不能「同时」传输。</p>
 
@@ -119,7 +121,7 @@
 
 <p>即使 <strong><em>B</em></strong> 要传，也要等 <strong><em>A</em></strong> 传送完毕了之后才能传。</p>
 
-<p>#### 全双工</p>
+<h4 id="全双工">全双工</h4>
 
 <p>允许两个设备之间「同时」向对方传输。</p>
 

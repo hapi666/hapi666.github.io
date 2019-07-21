@@ -56,6 +56,41 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/shake_hands/">细说三次握手与四次挥手</a></h3>
+        <p class="post-time"><time datetime="2019-07-22T01:06:17&#43;08:00">July 22, 2019</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>## seq, ack, fin
+#### seq: 确认序列
+#### ack: 确认包
+#### fin: 断开连接包
+## 三次握手
+客户端先发送 SYN=x 请求建立连接
+服务器返回 ACK=x+1，SYN=Y
+客户端再回复 ACK=Y+1 建立连接成功
+#### 为什么是三次握手？
+假设 client 端向 server 端发送了一个请求报文（没有丢失的报文），但是不幸在网络节点中被滞留了，以至于延误了，直到 client 端释放了该连接之后才抵达 server 端，
+如果在没有第三次握手的前提下，那么 server 端会直接建立连接成功，但是 client 端这个连接对于它来讲已经失效了，所以它不会用这个连接去跟 server 进行沟通了，也就是说它不会再发任何数据给 server 端了，那么这样导致的就是呢一次连接的浪费
+如果有第三次握手呢，server 端对 client 传过来的这个报文请求会向其发送 ACK 和 SYN，等待 client 回复 ACK 确认消息，该连接才会被认为是有效的，这样一来，就不会出现浪费资源的情况。
+##### 从而证明三次握手是必要的！
+##### 第二次握手证明 client=&gt;server 是没问题的
+##### 第三次握手证明 server=&gt;client 是没问题的
+##### TCP 是全双工通信的，由于网络通信是不可靠的，所以通过三次握手可以「最低限度」的确认全双工通信通道
+## 四次挥手
+想要断开连接的一方 向 对方 发送一个 FIN 数据包，对方收到之后回复一个 ACK ，在间隔一段时间之后，再发送 FIN, 然后 主动断开的一方 回复 对方 一个 ACK</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/linux-command/">Linux基础命令</a></h3>
         <p class="post-time"><time datetime="2019-06-05T19:00:57&#43;08:00">June 5, 2019</time></p>
     </header>
@@ -132,42 +167,6 @@ func HandleFunc(pattern string, handler func(ResponseWriter, *Request)){ Default
 那这个 DefaultServeMux 是什么呢？
 type ServeMux struct{ mu sync.RWMutex m map[string]muxEntry hosts bool } var DefaultServeMux = &amp;defaultServeMux var defaultServeMux ServeMux  找到了定义的部分，发现其实本质就是 ServeMux 结构体.
 func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) { if handler == nil { panic(&quot;http: nil handler&quot;) } mux.</p>
-    </section>
-
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/map/">GO Map底层实现</a></h3>
-        <p class="post-time"><time datetime="2018-12-01T12:37:08&#43;08:00">December 1, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p>键值对与哈希表 键值对（key-value pair）
-GO语言的字典类型其实是一个哈希表（hash table）的特定实现，在这个实现中，键与值最大的不同在于：键的类型是受限制的，而值可以是任意类型的
-对键值对的增删改查是通过哈希表映射操作的
-比如要在哈希表中查找某个与键对应的那个值，那么我们需要先把键值作为参数传给这个哈希表。
-在 GO 语言中每个键值都是由它的哈希值代表的。也就是说字典 map 不会存储任何键的值，但会独立存储它们的哈希值。
-1.哈希表会先用哈希函数把键值转换为哈希值。
-哈希值通常是一个无符号整数。一个哈希表会持有一定数量的桶（bucket），也可称之为哈希桶，这些哈希桶会均匀地存储其所属哈希表收纳的那些键值对。
-2.得到的无符号整数一拆为二，分别称为为高几位和低几位
-3.用低几位去定位到一个哈希桶，然后用高几位去定位到具体的键 key
-4.随后哈希表就会把相应的元素值作为结果返回
-只要这个键值对存在于该哈希表中就一定会被查找到
-关于 GO Map 的几个问题  NO.1 字典的键类型不能是哪些类型？  答案是不可以是函数类型、字典类型和切片类型。
-GO Map 的键类型的值必须是可以支持判等操作的。由于函数类型、字典类型和切片类型并不支持判等操作，所以字典的键类型不能是这些类型。
-另外，如果键的类型是接口类型的，那么键的实际类型也不能是上述三种类型，否则会引发 panic 恐慌。举个例子：
-var badMap2 = map[interface{}]int{ &quot;1&quot;: 1, []int{2}: 2, // 这里会引发 panic。 3: 3, }  由于 badMap2 的键类型是 interface 类型，在编译期间不会报错。但是它的键里面却还是有切片类型 []int{2} 所以在运行时系统会抛出一个 panic 。
- NO.2 为什么键类型的值必须支持判等操作呢？  前面说定位到具体的哈希桶之后通过高几位再定位到键，那么是如何定位到键的呢？
-首先，每个哈希桶都会把自己包含的所有键的哈希值存起来。Go 语言会用被查找键的哈希值与这些哈希值逐个对比，看看是否有相等的。如果一个相等的都没有，那么就说明这个桶中没有要查找的键值，这时 Go 语言就会立刻返回结果了。
-如果有相等的，那就再用键值本身去对比一次。为什么还要对比？原因是：不同值的哈希值可能是相同的。这个术语叫：哈希碰撞。
-反过来，哈希值一样，键也不一定一样。所以如果这个键类型的值不能判等，那么就无法定位这个键的具体位置了。</p>
     </section>
 
     <footer class="post-footer">

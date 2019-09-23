@@ -61,16 +61,7 @@
 ​ 4.用户定义完整性：不同的关系数据库系统根据其应用环境的不同，往往还需要一些特殊的约束条件。用户定义的完整性是针对某个特定关系数据库的约束条件，它反映某一具体应用必须满足的语义要求。（就是根据特定的业务，用户自定义的规则）
 三、完整性约束的类型
 ​ \1. 主键约束（PRIMARY KEY）：要求主键列 数据唯一，并且不允许为空，PRIMARY KEY = UNIQUE + NOT NULL。主键可以包含表的一列或多列。你定义的主键包含多列时，你只能在表级定义。
-​ # 在表级定义主键约束
-​ CREATE TABLE student (
-​ sno NUMBER(3),
-​ same VARCHAR2(15),
-​ gender CHAR(3) DEFAULT ‘男’,
-​ age NUMBER(2),
-​ CONSTRAINTS pk_student PRIMARY KEY (sno,sname)
-​ );
-​ # 在列级定义主键约束
-​ CREATE TABLE student (</p>
+# 在表级定义主键约束 CREATE TABLE student ( sno NUMBER(3), same VARCHAR2(15), gender CHAR(3) DEFAULT ‘男’, age NUMBER(2), CONSTRAINTS pk_student PRIMARY KEY (sno,sname) ); # 在列级定义主键约束 CREATE TABLE student ( sno NUMBER(3) CONSTRAINTS pk_student PRIMARY KEY, sname VARCHAR2(15) CONSTRAINTS KEY, gender CHAR(3) DEFAULT ‘男’, age NUMBER(2) );  ​</p>
     </section>
 
     <footer class="post-footer">

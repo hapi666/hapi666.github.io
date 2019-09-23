@@ -6,8 +6,6 @@
     <description>Recent content on 一只傻哈皮</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>hapi666@gmail.com (hapi666)</managingEditor>
-    <webMaster>hapi666@gmail.com (hapi666)</webMaster>
     <lastBuildDate>Mon, 23 Sep 2019 16:27:02 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.com/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +15,7 @@
       <title>SQL-完整性约束</title>
       <link>https://hapi666.com/post/constraint/</link>
       <pubDate>Mon, 23 Sep 2019 16:27:02 +0800</pubDate>
-      <author>hapi666@gmail.com (hapi666)</author>
+      
       <guid>https://hapi666.com/post/constraint/</guid>
       <description>一、概念
 ​ 保证授权用户对数据库所做的修改不会破坏数据的一致性。

@@ -150,65 +150,61 @@
 
 <p>​        4.检查约束（<strong>CHECK</strong>） ：某列取值范围限制、格式限制等，如年龄的约束。</p>
 
-<pre><code>                    ```mysql
+<pre><code class="language-mysql">CREATE TABLE student (
+
+  sno NUMBER(3),
+
+  sname VARCHAR2(15) NOT NULL,
+
+  gender CHAR(3) DEFAULT '男' CHECK(gender IN ('男', '女')),
+
+  age NUMBER(2) CHECK (age BETWEEN 18 AND 30),
+
+  CONSTRAINTS pk_student PRIMARY KEY (sno,sname)
+
+);
 </code></pre>
-
-<p>CREATE TABLE student (</p>
-
-<p>sno NUMBER(3),</p>
-
-<p>sname VARCHAR2(15) NOT NULL,</p>
-
-<p>gender CHAR(3) DEFAULT &lsquo;男&rsquo; CHECK(gender IN (&lsquo;男&rsquo;, &lsquo;女&rsquo;)),</p>
-
-<p>age NUMBER(2) CHECK (age BETWEEN 18 AND 30),</p>
-
-<p>CONSTRAINTS pk_student PRIMARY KEY (sno,sname)</p>
-
-<p>);
-                        ```</p>
 
 <p>​        5.外键约束 ：用于两表之间建立关系，需要指定引用主表哪列。外键通常用来约束两个表之间的数据关系，定义外键那张表成为子表，另一张表称为主表。在表的创建过程中，应先创建主表，后创建子表。</p>
 
-<pre><code>                   ```mysql
+<pre><code class="language-mysql">CREATE TABLE clazz (
+
+  cno NUMBER(3) PRIMARY KEY,
+
+  cname VARCHAR2(30) NOT NULL UNIQUE,
+
+  cdate DATE
+
+);
+
+
+
+CREATE TABLE student (
+
+  sno NUMBER(3),
+
+  sname VARCHAR2(15) NOT NULL,
+
+  gender CHAR(3) DEFAULT '男',
+
+  age NUMBER(2),
+
+  sdate DATE,
+
+  email VARCHAR2(30),
+
+  cno NUMBER(3) REFERENCES clazz (cno),-- 在列级别定义外键约束
+
+  CONSTRAINTS pk_student PRIMARY KEY (sno),
+
+  CONSTRAINTS uk_student_email UNIQUE (email),
+
+  CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30),
+
+  CONSTRAINTS ck_student_gender CHECK(gender IN ('男', '女'))
+
+);
 </code></pre>
-
-<p>CREATE TABLE clazz (</p>
-
-<p>cno NUMBER(3) PRIMARY KEY,</p>
-
-<p>cname VARCHAR2(30) NOT NULL UNIQUE,</p>
-
-<p>cdate DATE</p>
-
-<p>);</p>
-
-<p>CREATE TABLE student (</p>
-
-<p>sno NUMBER(3),</p>
-
-<p>sname VARCHAR2(15) NOT NULL,</p>
-
-<p>gender CHAR(3) DEFAULT &lsquo;男&rsquo;,</p>
-
-<p>age NUMBER(2),</p>
-
-<p>sdate DATE,</p>
-
-<p>email VARCHAR2(30),</p>
-
-<p>cno NUMBER(3) REFERENCES clazz (cno),&ndash; 在列级别定义外键约束</p>
-
-<p>CONSTRAINTS pk_student PRIMARY KEY (sno),</p>
-
-<p>CONSTRAINTS uk_student_email UNIQUE (email),</p>
-
-<p>CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30),</p>
-
-<p>CONSTRAINTS ck_student_gender CHECK(gender IN (&lsquo;男&rsquo;, &lsquo;女&rsquo;))</p>
-
-<p>);
-                       ```</p>
 
 <p>​        6.级联删除 ：添加外键约束后，在删除主表信息时，会先检查该信息在子表中有没有被引用。如果有关联的子表信息，那么主表中的信息不允许被删除，必须先删除子表中的相关信息，才能删除主表中的信息。</p>
 
@@ -224,104 +220,98 @@
 
 <p>​</p>
 
-<pre><code>                    ```mysql
+<pre><code class="language-mysql">-- 设置级联删除
+CREATE TABLE student (
+
+  sno NUMBER(3),
+
+  sname VARCHAR2(15) NOT NULL,
+
+  gender CHAR(3) DEFAULT '男',
+
+  age NUMBER(2),
+
+  sdate DATE,
+
+  email VARCHAR2(30),
+
+  cno NUMBER(3),
+
+  CONSTRAINTS pk_student PRIMARY KEY (sno),
+
+  CONSTRAINTS uk_student_email UNIQUE (email),
+
+  CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30),
+
+  CONSTRAINTS ck_student_gender CHECK(gender IN ('男', '女')),
+
+  CONSTRAINTS fk_student_cno FOREIGN KEY (cno) REFERENCES clazz (cno) ON DELETE CASCADE-- 级联删除
+
+);
+
+DELETE FROM clazz WHERE cno=401;
+
+-- 设置级联设空
+
+DROP TABLE student;
+
+CREATE TABLE student (
+
+  sno NUMBER(3),
+
+  sname VARCHAR2(15) NOT NULL,
+
+  gender CHAR(3) DEFAULT '男',
+
+  age NUMBER(2),
+
+  sdate DATE,
+
+  email VARCHAR2(30),
+
+  cno NUMBER(3),
+
+  CONSTRAINTS pk_student PRIMARY KEY (sno),
+
+  CONSTRAINTS uk_student_email UNIQUE (email),
+
+  CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30),
+
+  CONSTRAINTS ck_student_gender CHECK(gender IN ('男', '女')),
+
+  CONSTRAINTS fk_student_cno FOREIGN KEY (cno) REFERENCES clazz (cno) ON DELETE SET NULL-- 级联设空
+
+);
 </code></pre>
-
-<p>&ndash; 设置级联删除
-CREATE TABLE student (</p>
-
-<p>sno NUMBER(3),</p>
-
-<p>sname VARCHAR2(15) NOT NULL,</p>
-
-<p>gender CHAR(3) DEFAULT &lsquo;男&rsquo;,</p>
-
-<p>age NUMBER(2),</p>
-
-<p>sdate DATE,</p>
-
-<p>email VARCHAR2(30),</p>
-
-<p>cno NUMBER(3),</p>
-
-<p>CONSTRAINTS pk_student PRIMARY KEY (sno),</p>
-
-<p>CONSTRAINTS uk_student_email UNIQUE (email),</p>
-
-<p>CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30),</p>
-
-<p>CONSTRAINTS ck_student_gender CHECK(gender IN (&lsquo;男&rsquo;, &lsquo;女&rsquo;)),</p>
-
-<p>CONSTRAINTS fk_student_cno FOREIGN KEY (cno) REFERENCES clazz (cno) ON DELETE CASCADE&ndash; 级联删除</p>
-
-<p>);</p>
-
-<p>DELETE FROM clazz WHERE cno=401;</p>
-
-<p>&ndash; 设置级联设空</p>
-
-<p>DROP TABLE student;</p>
-
-<p>CREATE TABLE student (</p>
-
-<p>sno NUMBER(3),</p>
-
-<p>sname VARCHAR2(15) NOT NULL,</p>
-
-<p>gender CHAR(3) DEFAULT &lsquo;男&rsquo;,</p>
-
-<p>age NUMBER(2),</p>
-
-<p>sdate DATE,</p>
-
-<p>email VARCHAR2(30),</p>
-
-<p>cno NUMBER(3),</p>
-
-<p>CONSTRAINTS pk_student PRIMARY KEY (sno),</p>
-
-<p>CONSTRAINTS uk_student_email UNIQUE (email),</p>
-
-<p>CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30),</p>
-
-<p>CONSTRAINTS ck_student_gender CHECK(gender IN (&lsquo;男&rsquo;, &lsquo;女&rsquo;)),</p>
-
-<p>CONSTRAINTS fk_student_cno FOREIGN KEY (cno) REFERENCES clazz (cno) ON DELETE SET NULL&ndash; 级联设空</p>
-
-<p>);
-                        ```</p>
 
 <p>​        7.修改表时添加约束 ：修改表时，只能添加或删除约束，不能修改约束。</p>
 
-<pre><code>                    ```mysql
+<pre><code class="language-mysql">CREATE TABLE student (
+
+  sname VARCHAR2(15) NOT NULL,
+
+  gender CHAR(3) DEFAULT '男',
+
+  age NUMBER(2),
+
+  sdate DATE,
+
+  email VARCHAR2(30),
+
+  cno NUMBER(3)
+
+);
+
+ALTER TABLE student ADD CONSTRAINTS pk_student PRIMARY KEY (sno);
+
+ALTER TABLE student ADD CONSTRAINTS uk_student_email UNIQUE (email);
+
+ALTER TABLE student ADD CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30);
+
+ALTER TABLE student DROP CONSTRAINTS ck_student_gender CHECK (gender IN ('男', '女'));
+
+ALTER TABLE student DROP CONSTRAINTS fk_student_cno FOREIGN KEY (cno) REFERENCES clazz (cno);
 </code></pre>
-
-<p>CREATE TABLE student (</p>
-
-<p>sname VARCHAR2(15) NOT NULL,</p>
-
-<p>gender CHAR(3) DEFAULT &lsquo;男&rsquo;,</p>
-
-<p>age NUMBER(2),</p>
-
-<p>sdate DATE,</p>
-
-<p>email VARCHAR2(30),</p>
-
-<p>cno NUMBER(3)</p>
-
-<p>);</p>
-
-<p>ALTER TABLE student ADD CONSTRAINTS pk_student PRIMARY KEY (sno);</p>
-
-<p>ALTER TABLE student ADD CONSTRAINTS uk_student_email UNIQUE (email);</p>
-
-<p>ALTER TABLE student ADD CONSTRAINTS ck_student_age CHECK (age BETWEEN 18 AND 30);</p>
-
-<p>ALTER TABLE student DROP CONSTRAINTS ck_student_gender CHECK (gender IN (&lsquo;男&rsquo;, &lsquo;女&rsquo;));</p>
-
-<p>ALTER TABLE student DROP CONSTRAINTS fk_student_cno FOREIGN KEY (cno) REFERENCES clazz (cno);
-                        ```</p>
 
     </section>
 

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on My New Hugo Site</title>
-    <link>http://example.org/post/</link>
-    <description>Recent content in Posts on My New Hugo Site</description>
+    <title>Posts on 一只傻哈皮</title>
+    <link>https://hapi666.com/post/</link>
+    <description>Recent content in Posts on 一只傻哈皮</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>hapi666@gmail.com (hapi666)</managingEditor>
+    <webMaster>hapi666@gmail.com (hapi666)</webMaster>
     <lastBuildDate>Mon, 23 Sep 2019 16:27:02 +0800</lastBuildDate>
     
-	<atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hapi666.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>SQL-完整性约束</title>
-      <link>http://example.org/post/constraint/</link>
+      <link>https://hapi666.com/post/constraint/</link>
       <pubDate>Mon, 23 Sep 2019 16:27:02 +0800</pubDate>
-      
-      <guid>http://example.org/post/constraint/</guid>
+      <author>hapi666@gmail.com (hapi666)</author>
+      <guid>https://hapi666.com/post/constraint/</guid>
       <description>一、概念
 ​ 保证授权用户对数据库所做的修改不会破坏数据的一致性。
 ​ 因此，完整性约束 防止的是对数据的意外破坏。

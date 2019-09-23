@@ -127,26 +127,22 @@
 
 <p>​        3.唯一约束（<strong>UNIQUE</strong>） ：要求该列唯一，允许为空。</p>
 
-<pre><code>                   ```mysql
+<pre><code class="language-mysql"> CREATE TABLE student (
+
+     sno NUMBER(3),
+
+     sname VARCHAR2(15) NOT NULL,
+
+     gender CHAR(3) DEFAULT ‘男’,
+
+     age NUMBER(2),
+
+     email VARCHAR2(30) UNIQUE,
+
+     CONSTRAINTS pk_student PRIMARY KEY (sno,sname)
+
+  );
 </code></pre>
-
-<p>CREATE TABLE student (</p>
-
-<pre><code> sno NUMBER(3),
-
- sname VARCHAR2(15) NOT NULL,
-
- gender CHAR(3) DEFAULT ‘男’,
-
- age NUMBER(2),
-
- email VARCHAR2(30) UNIQUE,
-
- CONSTRAINTS pk_student PRIMARY KEY (sno,sname)
-</code></pre>
-
-<p>);
-                       ```</p>
 
 <p>​        4.检查约束（<strong>CHECK</strong>） ：某列取值范围限制、格式限制等，如年龄的约束。</p>
 

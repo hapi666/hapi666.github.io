@@ -5,20 +5,11 @@
     <link>https://hapi666.com/</link>
     <description>Recent content on 一只傻哈皮</description>
     <generator>Hugo -- gohugo.io</generator>
-<<<<<<< HEAD
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
     <lastBuildDate>Wed, 16 Oct 2019 01:35:56 +0800</lastBuildDate>
-=======
-    <language>en-us</language>
-    <lastBuildDate>Mon, 23 Sep 2019 16:27:02 +0800</lastBuildDate>
->>>>>>> 3d8e6cfea4115a1bfc92cba2416d328ed7552a80
     
 	<atom:link href="https://hapi666.com/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-<<<<<<< HEAD
       <title>完整性约束</title>
       <link>https://hapi666.github.io/post/integrity_constraint/</link>
       <pubDate>Wed, 16 Oct 2019 01:35:56 +0800</pubDate>
@@ -77,11 +68,6 @@ $ docker image pull ubuntu:latest</description>
       <title>细说三次握手与四次挥手</title>
       <link>https://hapi666.github.io/post/shake_hands/</link>
       <pubDate>Mon, 22 Jul 2019 01:06:17 +0800</pubDate>
-=======
-      <title>SQL-完整性约束</title>
-      <link>https://hapi666.com/post/constraint/</link>
-      <pubDate>Mon, 23 Sep 2019 16:27:02 +0800</pubDate>
->>>>>>> 3d8e6cfea4115a1bfc92cba2416d328ed7552a80
       
       <guid>https://hapi666.com/post/constraint/</guid>
       <description>一、概念

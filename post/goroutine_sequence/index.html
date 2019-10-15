@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" prefix="og: http://ogp.me/ns#" xmlns:og="http://ogp.me/ns#"><!--<![endif]-->
+
+    <head>
+                <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="author" content="一只傻哈皮">
+        <meta name="keywords" content="awesome, definitely">
+	
+        <meta property="og:site_name" content="一只傻哈皮">
+        <meta property="og:title" content="一只傻哈皮">
+        <meta property="og:url" content="https://hapi666.github.io/post/goroutine_sequence/">
+        <meta property="og:description" content="有梦想的年轻人！">
+    
+        <meta property="og:type" content="article" />
+        <meta property="og:article:author" content="一只傻哈皮" />
+        <meta property="og:article:published_time" content="2019-10-16T01:29:33&#43;08:00" />
+    
+        <meta name="generator" content="Hugo 0.49" />
+        <title>Goroutine 执行顺序 &middot; 一只傻哈皮 </title>
+        <link rel="canonical" href="https://hapi666.github.io/" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="">
+        <link rel="stylesheet" type='text/css' href="https://hapi666.github.io/css/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700' rel='stylesheet' type='text/css'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <link href="https://hapi666.github.io/css/syntax-highlighting.css" rel="stylesheet" />
+        <link rel="icon" href="http://donw.io/favicon.ico?v=2" />
+        <script src="https://hapi666.github.io/js/prism.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
+
+        
+    </head>
+<body>
+<!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
+
+    <header id="site-header">
+        <div class="container">
+            <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
+            <p class="blog-description">有梦想的年轻人！</p>
+			
+			        
+                    
+			
+			
+        </div>
+    </header>
+<main class="content" role="main">
+	<div class="container">
+		<article class="post">
+	<header class="post-header">
+        <h3 class="p-post-title">Goroutine 执行顺序</h3>
+    </header>
+
+    <section class="post-content">
+        <pre><code class="language-go">package main 
+
+import ( 
+
+	&quot;fmt&quot; 
+
+) 
+
+func sum(s []int,c chan int){ 
+
+	num:=0 
+
+	for _,v:=range s { 
+
+		num+=v 
+
+	} 
+
+	c&lt;-num 
+
+} 
+
+func main(){ 
+
+	s:=[]int{7,2,8,-9,4,0} 
+
+	c:=make(chan int,0) 
+
+	go sum(s[len(s)/2:],c) 
+
+	go sum(s[:len(s)/2],c) 
+
+	//y,x:=&lt;-c,&lt;-c 
+
+	x:=&lt;-c 
+
+	y:=&lt;-c 
+
+	fmt.Println(x,y,x+y) 
+
+} 
+</code></pre>
+
+<hr />
+
+<p>输出：</p>
+
+<pre><code class="language-go">17 -5 12 
+</code></pre>
+
+<hr />
+
+<p>值得我好奇的是，这个输出顺序是固定的，按我之前的理解来讲，我认为这个顺序应该是变化的，就是可能先输出-5，接着再输出17，也可能先输出17，再输出-5这种顺序，我反复运行好多次，结果很出乎我的意料/</p>
+
+<pre><code>下面来解释一下原因(摘自网络)
+</code></pre>
+
+<pre><code class="language-go">go 关键字只是一个语法糖，可以认为 go func() 只是创建了一个 待被执行任务（G），for 循环只能保证三个任务的创建顺序是 G(a) -&gt; G(b) -&gt; G(c)，但三个任务很可能会被分配到不同的cpu core上执行（go 的运行时调度器来分配）。所以三个任务的执行顺序是不确定的。 
+
+但是比较奇妙的是，一般情况下「在同一个 goroutine 中创建的多个任务」中最后创建那个任务最可能先被执行。原因的话就要看 go 的实现细节了：简单来说，同一 goroutine 中三个任务被创建后 理论上会按顺序 被放在同一个任务队列，但实际上最后那个任务会被放在 next（下一个要被执行的任务的意思）的位置，所以优先级最高，最可能先被执行。剩下的两个任务如果 go 运行时调度器发现有空闲的 core，就会把任务偷走点，让别的 core 执行，这样才能充分利用多核，提高并发能力。 
+</code></pre>
+
+    </section>
+
+    <hr>
+
+    <footer class="post-footer">
+        <section class="f-1">            
+            
+            <p class="f-post-time"><time datetime="2019-10-16T01:29:33&#43;08:00">October 16, 2019</time></p>
+        </section>
+                        
+        <section class="f-2">
+            <section class="share">
+                <span>Share:
+                <a class="icon-twitter" href="http://twitter.com/share?text=Goroutine%20%e6%89%a7%e8%a1%8c%e9%a1%ba%e5%ba%8f&url=https%3a%2f%2fhapi666.github.io%2fpost%2fgoroutine_sequence%2f"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhapi666.github.io%2fpost%2fgoroutine_sequence%2f"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fhapi666.github.io%2fpost%2fgoroutine_sequence%2f"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                </span>
+            </section>
+        </section>
+    </footer>
+    
+<div id="gh-comments">
+    <br/><br/>
+    <h6>COMMENTS</h6>
+    <div id="gh-comments-list"></div>
+    <a href="javascript:void(0)" id="gh-load-comments" class="btn" style="display:none">Load more comments</a>
+</div>
+
+<script type="text/javascript" src="https://hapi666.github.io/js/github-comments.js"></script>
+<script type="text/javascript">
+    DoGithubComments( null );
+</script>
+
+</article>
+	</div>
+</main>
+    <footer id="site-footer">
+        <div class="container">
+            <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+            <section>&copy; <a href="https://hapi666.github.io/">一只傻哈皮</a> 2016 | All rights reserved</section>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://hapi666.github.io/js/fittext.js"></script>
+    <script type="text/javascript">
+      $(".heading").fitText();
+    </script>
+
+    
+
+
+</body>
+</html>

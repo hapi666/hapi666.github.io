@@ -12,8 +12,8 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="author" content="哈皮">
-  
+        <meta name="author" content="一只傻哈皮">
+        <meta name="keywords" content="awesome, definitely">
 	
         <meta property="og:site_name" content="一只傻哈皮">
         <meta property="og:title" content="一只傻哈皮">
@@ -22,16 +22,21 @@
     
         <meta property="og:type" content="website" />
     
-        <meta name="generator" content="Hugo 0.30" />
-        <title>一只傻哈皮 &middot; 一只傻哈皮</title>
+        <meta name="generator" content="Hugo 0.49" />
+        <title>一只傻哈皮 &middot; 一只傻哈皮 </title>
         <link rel="canonical" href="https://hapi666.github.io/" />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="https://hapi666.github.io/index.xml">
-        <link rel="stylesheet" type="text/css" href="https://hapi666.github.io/css/main.css"/>
-        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type='text/css' href="https://hapi666.github.io/css/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300|Montserrat:700' rel='stylesheet' type='text/css'>
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    </head>
+        <link href="https://hapi666.github.io/css/syntax-highlighting.css" rel="stylesheet" />
+        <link rel="icon" href="http://donw.io/favicon.ico?v=2" />
+        <script src="https://hapi666.github.io/js/prism.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined-dev.js"></script>
 
+        
+    </head>
 <body>
 <!--[if lt IE 7]><p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chrome/‎">install Google Chrome</a> to experience this site.</p><![endif]-->
 
@@ -39,6 +44,11 @@
         <div class="container">
             <a href="https://hapi666.github.io/" alt="一只傻哈皮"><h1 class="blog-title heading">一只傻哈皮</h1></a>
             <p class="blog-description">有梦想的年轻人！</p>
+			
+			        
+                    
+			
+			
         </div>
     </header>
 <main class="content" role="main">
@@ -46,23 +56,15 @@
 	
 		<article class="li post">
     <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.21/">2018.1.21——Golang</a></h3>
-        <p class="post-time"><time datetime="2018-01-21T00:40:36&#43;08:00">January 21, 2018</time></p>
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/slice/">关于Slice的几点总结</a></h3>
+        <p class="post-time"><time datetime="2018-10-01T21:37:55&#43;08:00">October 1, 2018</time></p>
     </header>
     
     <section class="post-excerpt">
-        <p>看项目代码看见的关于string与slice之前的转化 首先上我看到的代码
-func (this *YamlConfig) MustValue(key string, defaultVal ...string) string { val, err := this.Value(key) if len(defaultVal) &gt; 0 &amp;&amp; err != nil { return defaultVal[0] } return val }  对于defaultVal是一个string类型的变量，可是在return后面返回的是defaultVal[0]，，，这是干什么呢？我很疑惑。。
-后来我尝试输出一个string类型变量的酱紫形式:
-package main import &quot;fmt&quot; func main(){ str:=&quot;23&quot; fmt.Println(str[0]) }  得到的结果是:50
-So,可以知道，它输出的是2的ascii码值
-哦，那上面我有疑惑的代码返回 的是一个ascii值
-欸，不对啊，我仔细一看，返回值类型是string啊
-ASCII是int型的变量啊= =
-那么我对于上述有疑问的代码我就更加不解了
-后来我又做了几次尝试
-如下:
-package main import ( &quot;fmt&quot; ) func func_name(str ...string) string { return str[0] } func main() { var str string str = &quot;23&quot; /*str := []string{&quot;2&quot;, &quot;3&quot;}*/ fmt.</p>
+        <p> var和make定义方式 使用var定义 var intSlice []int var stringSlice []string //等等，不多余赘述。  使用make定义 mSlice:=make([]type,len,cap) //len是mSlice的长度，cap是mSlice的容量 //长度是已有长度，容量是这个slice的最大长度  下面这两种定义效果一样 var s1 []int s2:=make([]int,0,0)  使用make定义slice的几种方式比较 1.长度和容量都是0，即make([]type,0,0)或make([]type,0) s1:=make([]int,0) for i=0;i&lt;10;i++ { s1=append(s1,i) fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s1,s1,len(s1),cap(s1)) }  结论 ：切片长度容量是不断变化的，并且不断重新分配内存，所以效率低下。
+2.长度是0，容量不是0，即make([]type,0,cap) s2:=make([]int,0,10) for i=0;i&lt;10;i++ { s2=append(s2,i) fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s2,s2,len(s2),cap(s2)) }  结论：切片长度不断变化，容量不变，内存不重新分配，所以效率高。
+3.长度容量都不是0，即make([]type,len,cap) s3:=make([]int,10,10) for i=0;i&lt;10;i++ { s3=append(s3,i) fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s3,s3,len(s3),cap(s3)) }  结论：切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。
+综合以上结论考虑：建议使用第二种make方式定义slice 即make([]type,0,cap) </p>
     </section>
 
     <footer class="post-footer">
@@ -75,41 +77,20 @@ package main import ( &quot;fmt&quot; ) func func_name(str ...string) string { r
 	
 		<article class="li post">
     <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.19/">2018.1.19——interface</a></h3>
-        <p class="post-time"><time datetime="2018-01-19T00:08:24&#43;08:00">January 19, 2018</time></p>
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/defer/">Defer</a></h3>
+        <p class="post-time"><time datetime="2018-09-28T19:23:53&#43;08:00">September 28, 2018</time></p>
     </header>
     
     <section class="post-excerpt">
-        <p>接口(interface) 接口从本质上说就是几个方法的集合，接口描述了类型的行为
-接口的命名一般是：&hellip;r/&hellip;able等(由r/able后缀组成)
-在Go语言中接口可以有值，一个接口类型的变量就是一个接口值(var ai Namer)，接口值是一个多字数据结构，其初始化值为nil，虽然和指针不是完全相同的东西，但实际上是一个指针。故指向接口值的指针是非法的，指向接口的指针不仅一点用处没有，还会导致代码错误。所以在函数参数列表里面用接口指针是错误的！
-对于任何一个类型，只要实现了接口中的所有方法即为实现了该接口。当然它还可以有其他方法。
-类型不需要显式声明它实现了某个接口，接口隐式地被实现。
-多个类型可以实现同一接口。
-一个类型可以实现多个接口。
-即使接口在类型之后才定义，二者处于不同的包中，被单独编译：只要类型实现了接口中的方法，它就实现了此接口。
-package main import ( &quot;fmt&quot; ) type easy struct { value int } type easier interface { name(p1 int, p2 int) int } func (e *easy) name(p1 int, p2 int) int { fmt.Println(p1 * p2) return p1 * p2 } func main() { test := new(easy) tester := easier(test) tester.name(6, 6) }  输出：36
-接口类型的数组，展示多态。
-一个接口可以嵌套到另一个接口中。
-假设varM是一个接口类型的变量，检测它的动态类型(运行时在变量中存储的值的实际类型)的方式是：v:=varM.(T) //检测它是否是T类型</p>
-    </section>
-
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/2018.1.18/">2018寒假目标</a></h3>
-        <p class="post-time"><time datetime="2018-01-18T23:34:39&#43;08:00">January 18, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p> · 写 写 写 (这对我来说意义不一样，我很懒) · 博客系统一个 · 面向对象的思想！！！！class！！！ · 愿我2018.3.1回头再看你时，已全部搞定 持续更新&hellip;&hellip;&hellip; </p>
+        <p>Defer使用时的坑 先看几个例子
+1.
+func f() (result int) { defer func() { result++ }() return 0 }  2.
+func f() (r int) { t := 5 defer func() { t = t + 5 }() return t }  3.
+func f() (r int) { defer func(r int) { r = r + 5 }(r) return 1 }  例1的正确答案不是0，例2的正确答案不是10，例3的正确答案不是6……
+Why???
+= =!
+要使用defer时不踩坑，最重要的一点就是要明白，return xxx这一条语句并不是一条原子指令! 那啥是原子指令？？
+所谓原子操作是指不会被 线程调度机制 打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有任何 context switch （切换到另一个线程）。</p>
     </section>
 
     <footer class="post-footer">
@@ -135,13 +116,8 @@ package main import ( &quot;fmt&quot; ) type easy struct { value int } type easi
 </main>
     <footer id="site-footer">
         <div class="container">
-          
-          
-          
-          
-          <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
-          <section>&copy; <a href="https://hapi666.github.io/">哈皮</a> 2017 | All rights reserved</section>
-          <section>Theme by <a href="http://www.jrdnbwmn.com">Jordan Bowman</a>. Generated with <a href="http://gohugo.io/">Hugo</a>.</section>
+            <a href="https://hapi666.github.io/index.xml" title="Get the RSS feed"><span class="tooltip"><i class="fa fa-rss"></i></span></a>
+            <section>&copy; <a href="https://hapi666.github.io/">一只傻哈皮</a> 2016 | All rights reserved</section>
         </div>
     </footer>
 
@@ -150,6 +126,7 @@ package main import ( &quot;fmt&quot; ) type easy struct { value int } type easi
       $(".heading").fitText();
     </script>
 
+    
 
 </body>
 </html>

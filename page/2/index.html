@@ -56,6 +56,75 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/mysql/">Mysql</a></h3>
+        <p class="post-time"><time datetime="2019-06-05T18:54:22&#43;08:00">June 5, 2019</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p> 必知必会 1⃣️ start、restart、stop mysql.server start mysql.server restart mysql.server stop  2⃣️ 修改密码  </p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/unsafe/">unsafe黑魔法</a></h3>
+        <p class="post-time"><time datetime="2018-12-24T18:48:31&#43;08:00">December 24, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>前言 大家应该都知道 Go 语言是不支持指针的运算和转换的。这是为什么呢？
+由于 Go 语言是一门静态语言(也叫强类型语言)，所以所有的变量都必须为标量类型。不同类型之间不能够进行赋值、计算等跨类型的操作，比方说一个字符串不能赋值给一个 int 类型的变量，一个字符串也不能跟一个整数相加、相减等操作，一个字符串也不能强制转换为整数类型。由于指针也有其对应的类型，所以也在 Compile 的静态类型检查的范围内。同时，静态类型又叫强类型，意思就是这个变量一旦定义其类型，便不能再更改它。
+像下面这种，就是不对的
+number := 5 numberPointer := &amp;number floatNumber := (*float32)(numberPointer) fmt.Println(floatNumber)  编译器会报错：
+# command-line-arguments ...: cannot convert numberPointer (type *int) to type *float32  直接翻译就知道这是为什么会报错吧
+unsafe 包 用它之前，我们要知道：
+ 它是围绕 Go 程序内存安全及类型的操作 用它写出来的程序很可能是不可移植的 不受 Go 1兼容性指南保护  unsafe.Pointer type ArbitraryType int type Pointer *ArbitraryType  ArbitraryType 仅用于来表示任意 Go 表达式类型，就是用来表示任意的含义，他并不属于 unsafe 包的一部分。
+所以 Pointer 代表人意类型的指针，类似于 C 语言里面的 void*。</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/router/">Go Router</a></h3>
+        <p class="post-time"><time datetime="2018-12-21T18:56:53&#43;08:00">December 21, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>Go router 源码分析 先看一下最简单的 web server 服务8：
+http.HandleFunc(&quot;/&quot;,func(w http.ResponseWriter,r *http.Request){ w.write([]byte(&quot;hello world!&quot;)) }) http.ListenAndServe(&quot;:8080&quot;,nil)  先观察一下这个，这段代码其实就是一个在本地的8080端口的http服务，当访问：127.0.0.1:8080的时候，页面就会输出 hello world！
+不难发现，其实只要知道了 http.HandleFunc() 、http.ListenAndServe() 这俩个函数干了什么就知道这个服务是怎么跑起来的了。
+那么先查看 HandleFunc() 源码8 hhh
+我们就跳到源码里面的 HandleFunc() 里面
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)){ DefaultServeMux.HandleFunc(pattern, handler) }  诶，这里好像继续调用 DefaultServeMux 的 HandleFunc 的方法了昂
+那这个 DefaultServeMux 是什么呢？
+type ServeMux struct{ mu sync.RWMutex m map[string]muxEntry hosts bool } var DefaultServeMux = &amp;defaultServeMux var defaultServeMux ServeMux  找到了定义的部分，发现其实本质就是 ServeMux 结构体.
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) { if handler == nil { panic(&quot;http: nil handler&quot;) } mux.</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/map/">GO Map底层实现</a></h3>
         <p class="post-time"><time datetime="2018-12-01T12:37:08&#43;08:00">December 1, 2018</time></p>
     </header>
@@ -117,53 +186,6 @@ package main import ( &quot;fmt&quot; ) func main() { var s = [5]string{&quot;1&
     </footer>
 </article>
 	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/slice/">关于Slice的几点总结</a></h3>
-        <p class="post-time"><time datetime="2018-10-01T21:37:55&#43;08:00">October 1, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p> var和make定义方式 使用var定义 var intSlice []int var stringSlice []string //等等，不多余赘述。  使用make定义 mSlice:=make([]type,len,cap) //len是mSlice的长度，cap是mSlice的容量 //长度是已有长度，容量是这个slice的最大长度  下面这两种定义效果一样 var s1 []int s2:=make([]int,0,0)  使用make定义slice的几种方式比较 1.长度和容量都是0，即make([]type,0,0)或make([]type,0) s1:=make([]int,0) for i=0;i&lt;10;i++ { s1=append(s1,i) fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s1,s1,len(s1),cap(s1)) }  结论 ：切片长度容量是不断变化的，并且不断重新分配内存，所以效率低下。
-2.长度是0，容量不是0，即make([]type,0,cap) s2:=make([]int,0,10) for i=0;i&lt;10;i++ { s2=append(s2,i) fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s2,s2,len(s2),cap(s2)) }  结论：切片长度不断变化，容量不变，内存不重新分配，所以效率高。
-3.长度容量都不是0，即make([]type,len,cap) s3:=make([]int,10,10) for i=0;i&lt;10;i++ { s3=append(s3,i) fmt.Printf(&quot;切片：%v,切片地址：%p,切片长度：%v,切片容量：%v&quot;,s3,s3,len(s3),cap(s3)) }  结论：切片长度不断变化，容量=起初容量+长度，内存不重新分配，所以效率高，但会出现默认值(因为长度是10，所以会出现10个是0的默认值)，不利于操作。
-综合以上结论考虑：建议使用第二种make方式定义slice 即make([]type,0,cap) </p>
-    </section>
-
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
-		<article class="li post">
-    <header class="post-header">
-        <h3 class="post-title"><a href="https://hapi666.github.io/post/defer/">Defer</a></h3>
-        <p class="post-time"><time datetime="2018-09-28T19:23:53&#43;08:00">September 28, 2018</time></p>
-    </header>
-    
-    <section class="post-excerpt">
-        <p>Defer使用时的坑 先看几个例子
-1.
-func f() (result int) { defer func() { result++ }() return 0 }  2.
-func f() (r int) { t := 5 defer func() { t = t + 5 }() return t }  3.
-func f() (r int) { defer func(r int) { r = r + 5 }(r) return 1 }  例1的正确答案不是0，例2的正确答案不是10，例3的正确答案不是6……
-Why???
-= =!
-要使用defer时不踩坑，最重要的一点就是要明白，return xxx这一条语句并不是一条原子指令! 那啥是原子指令？？
-所谓原子操作是指不会被 线程调度机制 打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有任何 context switch （切换到另一个线程）。</p>
-    </section>
-
-    <footer class="post-footer">
-        <span>
-            
-            
-        </span>
-    </footer>
-</article>
-	
 	
 <nav role="pagination" class="pagination">
   
@@ -171,7 +193,11 @@ Why???
     <i class="fa fa-angle-double-left"></i>&nbsp;Newer&nbsp;
   </a>
   
-	<span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 2</span>
+	<span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 3</span>
+
+  <a href="https://hapi666.github.io/page/3/" class="older-posts">
+    &nbsp;Older&nbsp;<i class="fa fa-angle-double-right"></i>
+  </a>
 
 </nav>
 

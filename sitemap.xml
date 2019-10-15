@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://hapi666.github.io/post/integrity_constraint/</loc>
+    <lastmod>2019-10-16T01:35:56+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hapi666.github.io/post/goroutine_sequence/</loc>
+    <lastmod>2019-10-16T01:29:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hapi666.github.io/post/docker02/</loc>
+    <lastmod>2019-10-16T00:48:04+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://hapi666.github.io/post/shake_hands/</loc>
     <lastmod>2019-07-22T01:06:17+08:00</lastmod>
   </url>
@@ -54,7 +69,7 @@
   
   <url>
     <loc>https://hapi666.github.io/post/</loc>
-    <lastmod>2019-07-22T01:06:17+08:00</lastmod>
+    <lastmod>2019-10-16T01:35:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -65,7 +80,7 @@
   
   <url>
     <loc>https://hapi666.github.io/</loc>
-    <lastmod>2019-07-22T01:06:17+08:00</lastmod>
+    <lastmod>2019-10-16T01:35:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   

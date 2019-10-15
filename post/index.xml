@@ -7,10 +7,65 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Mon, 22 Jul 2019 01:06:17 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2019 01:35:56 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>完整性约束</title>
+      <link>https://hapi666.github.io/post/integrity_constraint/</link>
+      <pubDate>Wed, 16 Oct 2019 01:35:56 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/integrity_constraint/</guid>
+      <description>一、完整性约束的概念
+​ 保证授权用户对数据库所做的修改不会破坏数据的一致性。
+​ 因此，完整性约束 防止的是对数据的意外破坏。
+二、完整性约束分为三类，包括：
+​ \1. 域完整性 ：是指给定列的取值范围（即输入的有效性）
+​ \2. 实体完整性 ：规定表中的每一行在表中是唯一的一个实体（实体就是一条记录）
+​ \3. 参照完整性 ：保持主外键之间的参照规则。它保证的是表之前数据的一致性，防止了数据丢失或无意义的数据在数据库中扩散。
+​ 4.用户定义完整性：不同的关系数据库系统根据其应用环境的不同，往往还需要一些特殊的约束条件。用户定义的完整性是针对某个特定关系数据库的约束条件，它反映某一具体应用必须满足的语义要求。（就是根据特定的业务，用户自定义的规则）
+三、完整性约束的类型
+​ \1. 主键约束（PRIMARY KEY）：要求主键列 数据唯一，并且不允许为空，PRIMARY KEY = UNIQUE + NOT NULL。主键可以包含表的一列或多列。你定义的主键包含多列时，你只能在表级定义。
+​ # 在表级定义主键约束
+​ CREATE TABLE student (
+​ sno NUMBER(3),
+​ same VARCHAR2(15),
+​ gender CHAR(3) DEFAULT ‘男’,
+​ age NUMBER(2),
+​ CONSTRAINTS pk_student PRIMARY KEY (sno,sname)
+​ );
+​ # 在列级定义主键约束
+​ CREATE TABLE student (</description>
+    </item>
+    
+    <item>
+      <title>Goroutine 执行顺序</title>
+      <link>https://hapi666.github.io/post/goroutine_sequence/</link>
+      <pubDate>Wed, 16 Oct 2019 01:29:33 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/goroutine_sequence/</guid>
+      <description>package main import ( &amp;quot;fmt&amp;quot; ) func sum(s []int,c chan int){ num:=0 for _,v:=range s { num+=v } c&amp;lt;-num } func main(){ s:=[]int{7,2,8,-9,4,0} c:=make(chan int,0) go sum(s[len(s)/2:],c) go sum(s[:len(s)/2],c) //y,x:=&amp;lt;-c,&amp;lt;-c x:=&amp;lt;-c y:=&amp;lt;-c fmt.Println(x,y,x+y) }  输出：
+17 -5 12  值得我好奇的是，这个输出顺序是固定的，按我之前的理解来讲，我认为这个顺序应该是变化的，就是可能先输出-5，接着再输出17，也可能先输出17，再输出-5这种顺序，我反复运行好多次，结果很出乎我的意料/
+下面来解释一下原因(摘自网络)  go 关键字只是一个语法糖，可以认为 go func() 只是创建了一个 待被执行任务（G），for 循环只能保证三个任务的创建顺序是 G(a) -&amp;gt; G(b) -&amp;gt; G(c)，但三个任务很可能会被分配到不同的cpu core上执行（go 的运行时调度器来分配）。所以三个任务的执行顺序是不确定的。 但是比较奇妙的是，一般情况下「在同一个 goroutine 中创建的多个任务」中最后创建那个任务最可能先被执行。原因的话就要看 go 的实现细节了：简单来说，同一 goroutine 中三个任务被创建后 理论上会按顺序 被放在同一个任务队列，但实际上最后那个任务会被放在 next（下一个要被执行的任务的意思）的位置，所以优先级最高，最可能先被执行。剩下的两个任务如果 go 运行时调度器发现有空闲的 core，就会把任务偷走点，让别的 core 执行，这样才能充分利用多核，提高并发能力。  </description>
+    </item>
+    
+    <item>
+      <title>构建容器</title>
+      <link>https://hapi666.github.io/post/docker02/</link>
+      <pubDate>Wed, 16 Oct 2019 00:48:04 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/docker02/</guid>
+      <description>根据 dockerfile 文件构建镜像，进而构建容器 构建镜像 先写好一个dockerfile文件，然后命令行执行：
+$ docker image build --file &amp;lt;path_to_dockerfile&amp;gt; --tag &amp;lt;repository&amp;gt;:&amp;lt;tag&amp;gt; .  通常不会加 --file 参数，就直接：
+$ docker image --tag &amp;lt;repostory&amp;gt;:&amp;lt;tag&amp;gt; .  注意最后面这个 · 表示此命令在当前文件夹中构建镜像
+构建容器 启动容器
+$ docker container run -d --name &amp;lt;container_name&amp;gt; -p &amp;lt;container_port&amp;gt;:&amp;lt;宿主机port&amp;gt; &amp;lt;repostory&amp;gt;:&amp;lt;镜像tag&amp;gt; -v  停止/删除 容器
+$ docker container stop &amp;lt;container1_tag&amp;gt; &amp;lt;container2_tag&amp;gt; $ docker container &amp;lt;container1_tag&amp;gt; &amp;lt;container2_tag&amp;gt;  使用基础镜像去构建容器 不推荐这种做法 拉取基础镜像 ```shell
+$ docker image pull :&amp;lt;版本号，一般latest&amp;gt;
+$ docker image pull ubuntu:latest</description>
+    </item>
     
     <item>
       <title>细说三次握手与四次挥手</title>

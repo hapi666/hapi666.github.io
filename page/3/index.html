@@ -56,6 +56,33 @@
 	
 		<article class="li post">
     <header class="post-header">
+        <h3 class="post-title"><a href="https://hapi666.github.io/post/slice_under/">Slice底层</a></h3>
+        <p class="post-time"><time datetime="2018-11-28T17:56:29&#43;08:00">November 28, 2018</time></p>
+    </header>
+    
+    <section class="post-excerpt">
+        <p>数组 几乎所有计算机语言，数组的实现都是相似的：一段连续的内存。GO语言也一样，GO语言的数组底层实现就是一段连续的内存空间。
+由于内存连续，CPU很容易计算索引，所以可以快速迭代数组里所有的元素。
+C语言里面的Array是指向数组第一个元素的指针，GO语言的Array不像C语言里面的Array，在GO语言里，Array是一个Struct，一个数组变量就是整个数组。所以GO语言里Array是值类型，所以数组在传递的时候，传递的是原数组的拷贝。
+GO语言slice底层数据结构 GO语言的Slice底层其实就是一个Struct：
+type slice struct{ array unsafe.Pointer len int cap int }  它的struct包含三个字段：1.指向数组的指针 2.它的长度 3.它的容量
+所以说，一个slice其实是截取了某个数组的一部分而已。
+由于是指针，所以它的改变会直接影响到它所指向的数组。
+当然我说的是影响它所指向的数组，如果它所指向的数组被更换了，就影响更换之后的数组了。
+请看这段代码：
+package main import ( &quot;fmt&quot; ) func main() { var s = [5]string{&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;} fmt.Printf(&quot;原数组s:\n %v\n&quot;, s) sli := s[0:5] newsli := append(sli, &quot;t&quot;) sli[1] = &quot;x&quot; fmt.Printf(&quot;截取数组s后的sli:\n %v\n&quot;, sli) fmt.Printf(&quot;原数组s:\n %v\n&quot;, s) fmt.Printf(&quot;append sli后的newsli:\n %v\n&quot;, newsli) newsli[0] = &quot;w&quot; fmt.Printf(&quot;改变了newsli的第一个元素之后的newsli:\n %v\n&quot;, newsli) fmt.</p>
+    </section>
+
+    <footer class="post-footer">
+        <span>
+            
+            
+        </span>
+    </footer>
+</article>
+	
+		<article class="li post">
+    <header class="post-header">
         <h3 class="post-title"><a href="https://hapi666.github.io/post/slice/">关于Slice的几点总结</a></h3>
         <p class="post-time"><time datetime="2018-10-01T21:37:55&#43;08:00">October 1, 2018</time></p>
     </header>

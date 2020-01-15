@@ -65,9 +65,9 @@
 
 <h3 id="http1-1-与-http2">HTTP1.1 与 HTTP2</h3>
 
-<h4 id="http1-1-的缺陷">HTTP1.1 的缺陷</h4>
-
 <hr />
+
+<h4 id="http1-1-的缺陷">HTTP1.1 的缺陷</h4>
 
 <ol>
 <li><p>由于队头堵塞的高延迟</p></li>
@@ -83,9 +83,9 @@
 
 <p>对头阻塞是指当顺序发送请求序列中的一个请求因为某种原因被阻塞时，后面排队的所有请求也一并被阻塞，进而可能会导致客户端迟迟收不到数据。</p>
 
-<h4 id="spdy协议">SPDY协议</h4>
-
 <hr />
+
+<h4 id="spdy协议">SPDY协议</h4>
 
 <p>是由谷歌推出的改进版本的HTTP</p>
 
@@ -123,9 +123,9 @@
 
 <p>使用 HTTPS 进行加密传输</p>
 
-<h4 id="http2">HTTP2</h4>
-
 <hr />
+
+<h4 id="http2">HTTP2</h4>
 
 <p>HTTP2 基于 SPDY，专注于性能，最大的目标是<strong><code>在网站和用户之间只用一个连接</code></strong>。</p>
 
@@ -151,9 +151,9 @@
 
 <p>一个域名对应一个连接，一个<strong><code>流</code></strong>代表了一个完整的<code>请求-响应</code>的过程。<strong><code>帧</code></strong>是最小的数据单位，每个<strong><code>帧</code></strong>会标识出该帧属于哪个<strong><code>流</code></strong>，<strong><code>流</code></strong>也就是由多个帧组成的数据流。那么，多路复用就是在一个 TCP 连接里可以存在多个数据流，<a href="https://http2.akamai.com/demo">HTTP1.1无多路复用 对比 HTTP2多路复用。</a></p>
 
-<h4 id="http2-的缺陷">HTTP2 的缺陷</h4>
-
 <hr />
+
+<h4 id="http2-的缺陷">HTTP2 的缺陷</h4>
 
 <ol>
 <li>**TCP 以及 TCP+TLS 建立连接的延时 **</li>
@@ -185,9 +185,9 @@
 
 <p>即使是使用 Nginx 这样的负载均衡器，想正确进行节流也可能很棘手。其次，就算你向应用程序引入或调整排队机制，但一次处理的连接也是有限的。如果对请求进行排队，还要注意响应超时后丢弃请求</p>
 
-<h4 id="quic协议">QUIC协议</h4>
-
 <hr />
+
+<h4 id="quic协议">QUIC协议</h4>
 
     </section>
 

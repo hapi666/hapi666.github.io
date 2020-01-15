@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2017</copyright>
-    <lastBuildDate>Sat, 04 Jan 2020 15:45:12 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jan 2020 16:49:54 +0800</lastBuildDate>
     
 	<atom:link href="https://hapi666.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker Container IP</title>
+      <link>https://hapi666.github.io/post/dockerip/</link>
+      <pubDate>Thu, 09 Jan 2020 16:49:54 +0800</pubDate>
+      
+      <guid>https://hapi666.github.io/post/dockerip/</guid>
+      <description>查看容器IP // 查看具体某一个容器的IP，需要已知容器ID docker inspect --format &#39;{{ .NetworkSettings.IPAddress }}&#39; &amp;lt;container-ID&amp;gt; // 查看所有容器的IP docker inspect --format=&#39;{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39; $(docker ps -aq)  默认docker0的段是：172.17.0.1/16</description>
+    </item>
     
     <item>
       <title>vim 常用快捷键</title>
@@ -22,7 +31,7 @@
     </item>
     
     <item>
-      <title>Redis_command</title>
+      <title>Redis 常用操作</title>
       <link>https://hapi666.github.io/post/redis_command/</link>
       <pubDate>Thu, 26 Dec 2019 17:29:04 +0800</pubDate>
       
@@ -45,9 +54,10 @@
       <pubDate>Fri, 20 Dec 2019 14:42:15 +0800</pubDate>
       
       <guid>https://hapi666.github.io/post/regexp/</guid>
-      <description>作者注： 我的文章都很片面，是我按着自己的理解记录的，很可能有错误喔~ 请谨慎参考！请谨慎参考！请谨慎参考！ 也非常非常希望您在发现错误了之后联系我, qq:281127500  匹配规则  从左到右 从外到内  分组匹配 组内，也就是说一个括号内的匹配，对于整个正则来讲，它只匹配一次。 举个例子： 正则 regexp.MustComplie(`;\s(?i:(m1|m2|m3)(\s*\w*)[\s\)])`)  待匹配字符串 &amp;quot;-#; m1 BJM); m2 SKC ; m3 FEF){}&amp;quot;  匹配结果 ​ 可以看到，全匹配 匹配到三组，并且，每一组全匹配里面的 分组匹配 的每一组匹配(略微有点绕口哈~你品你细品)都只匹配一次。这个不是嵌套分组，感觉可能没那么明显，那么下面来一组嵌套分组的例子
+      <description> 作者注： 我的文章都很片面，是我按着自己的理解记录的，很可能有错误喔~ 请谨慎参考！请谨慎参考！请谨慎参考！ 也非常非常希望您在发现错误了之后联系我, qq:281127500  匹配规则  从左到右 从外到内  分组匹配 组内，也就是说一个括号内的匹配，对于整个正则来讲，它只匹配一次。 举个例子： 正则 regexp.MustComplie(`;\s(?i:(m1|m2|m3)(\s*\w*)[\s\)])`)  待匹配字符串 &amp;quot;-#; m1 BJM); m2 SKC ; m3 FEF){}&amp;quot;  匹配结果 ​ 可以看到，全匹配 匹配到三组，并且，每一组全匹配里面的 分组匹配 的每一组匹配(略微有点绕口哈~你品你细品)都只匹配一次。这个不是嵌套分组，感觉可能没那么明显，那么下面来一组嵌套分组的例子
 可以看到，正则里面有三个分组（那个(?i:)结构是不区分大小写的意思，不要误认为是分组），其中两个是嵌套关系(分组2和分组3)，首先是外层（分组2）匹配到“HM NOTE 1”,接着匹配内层分组（分组3），内层分组被外层分组重复利用了多次，但是只能匹配到一次，保存的是最后一次匹配到的值，所以是&amp;quot;hhh&amp;quot;。
-假如没有了外层分组, 如下图，可以看到，内层匹配到的也是最后一次保存到的匹配到的值，即&amp;quot;hhh&amp;quot;。</description>
+假如没有了外层分组, 如下图，可以看到，内层匹配到的也是最后一次保存到的匹配到的值，即&amp;quot;hhh&amp;quot;。
+golang 匹配汉字 正则: [\p{Han}] 可以匹配到任何一个汉字  </description>
     </item>
     
     <item>
@@ -100,9 +110,7 @@ $ docker image build --file &amp;lt;path_to_dockerfile&amp;gt; --tag &amp;lt;rep
 $ docker image --tag &amp;lt;repostory&amp;gt;:&amp;lt;tag&amp;gt; .  注意最后面这个 · 表示此命令在当前文件夹中构建镜像
 构建容器 启动容器
 $ docker container run -d --name &amp;lt;container_name&amp;gt; -p &amp;lt;container_port&amp;gt;:&amp;lt;宿主机port&amp;gt; &amp;lt;repostory&amp;gt;:&amp;lt;镜像tag&amp;gt; -v  停止/删除 容器
-$ docker container stop &amp;lt;container1_tag&amp;gt; &amp;lt;container2_tag&amp;gt; $ docker container &amp;lt;container1_tag&amp;gt; &amp;lt;container2_tag&amp;gt;  使用基础镜像去构建容器 不推荐这种做法 拉取基础镜像 ```shell
-$ docker image pull :&amp;lt;版本号，一般latest&amp;gt;
-$ docker image pull ubuntu:latest</description>
+$ docker container stop &amp;lt;container1_tag&amp;gt; &amp;lt;container2_tag&amp;gt; $ docker container &amp;lt;container1_tag&amp;gt; &amp;lt;container2_tag&amp;gt;  使用基础镜像去构建容器 不推荐这种做法 拉取基础镜像 $ docker image pull &amp;lt;image_name&amp;gt;:&amp;lt;版本号，一般latest&amp;gt; $ docker image pull ubuntu:latest  使用镜像容器 $ docker container run -it --name &amp;lt;container_name&amp;gt; &amp;lt;image_name&amp;gt; /bin/sh $ docker container run -it --name ubuntu-test ubuntu /bin/sh  保存镜像文件 $ docker container commit &amp;lt;container_name&amp;gt; &amp;lt;repository&amp;gt;:&amp;lt;tag&amp;gt; $ docker container commit ubuntu-test local:broken  $ docker container save -o &amp;lt;file_name.</description>
     </item>
     
     <item>

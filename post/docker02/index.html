@@ -99,25 +99,19 @@ $ docker container &lt;container1_tag&gt; &lt;container2_tag&gt;
 
 <h4 id="拉取基础镜像">拉取基础镜像</h4>
 
-<p>```shell</p>
+<pre><code class="language-shell">$ docker image pull &lt;image_name&gt;:&lt;版本号，一般latest&gt; 
 
-<p>$ docker image pull <image_name>:&lt;版本号，一般latest&gt;</p>
-
-<p>$ docker image pull ubuntu:latest</p>
-
-<p>```</p>
+$ docker image pull ubuntu:latest 
+</code></pre>
 
 <h4 id="使用镜像容器">使用镜像容器</h4>
 
-<p>```shell</p>
+<pre><code class="language-shell">$ docker container run -it --name &lt;container_name&gt; &lt;image_name&gt; /bin/sh 
 
-<p>$ docker container run -it &ndash;name <container_name> <image_name> /bin/sh</p>
+$ docker container run -it --name ubuntu-test ubuntu /bin/sh 
+</code></pre>
 
-<p>$ docker container run -it &ndash;name ubuntu-test ubuntu /bin/sh</p>
-
-<p>```</p>
-
-<p>## 保存镜像文件</p>
+<h4 id="保存镜像文件">保存镜像文件</h4>
 
 <pre><code class="language-shell">$ docker container commit &lt;container_name&gt; &lt;repository&gt;:&lt;tag&gt; 
 
